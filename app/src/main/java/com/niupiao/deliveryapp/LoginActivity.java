@@ -4,14 +4,31 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 
 public class LoginActivity extends ActionBarActivity {
+    private Button mLoginButton;
+    private EditText mIdField;
+    private EditText mPasswordField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mIdField = (EditText)findViewById(R.id.username_et);
+        mPasswordField = (EditText)findViewById(R.id.password_et);
+
+        mLoginButton = (Button)findViewById(R.id.login_button);
+        mLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Login code here
+            }
+        });
     }
 
 
