@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DeliveryApp.iml" filepath="$PROJECT_DIR$/DeliveryApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/delivery-Android.iml" filepath="$PROJECT_DIR$/delivery-Android.iml" />
     </modules>
   </component>
 </project>
-
