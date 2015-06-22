@@ -1,7 +1,9 @@
-package com.niupiao.deliveryapp;
+package com.niupiao.deliveryapp.MainTabs;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
+import com.niupiao.deliveryapp.R;
 
 /**
  * Created by Inanity on 6/22/2015.

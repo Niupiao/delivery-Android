@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.niupiao.deliveryapp.SlidingTabLayout
+    <com.niupiao.deliveryapp.SlidingTab.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

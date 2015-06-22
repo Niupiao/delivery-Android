@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.niupiao.deliveryapp;
+package com.niupiao.deliveryapp.SlidingTab;
 
 import android.R;
 import android.content.Context;

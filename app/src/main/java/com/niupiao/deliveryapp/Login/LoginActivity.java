@@ -1,4 +1,4 @@
-package com.niupiao.deliveryapp;
+package com.niupiao.deliveryapp.Login;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.niupiao.deliveryapp.R;
 
 
 public class LoginActivity extends ActionBarActivity {
