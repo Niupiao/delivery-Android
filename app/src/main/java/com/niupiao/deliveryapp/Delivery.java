@@ -21,4 +21,8 @@ public class Delivery {
     public String toString() {
         return mName;
     }
+
+    public UUID getId() {
+        return mId;
+    }
 }

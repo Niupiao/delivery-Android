@@ -1,6 +1,6 @@
 package com.niupiao.deliveryapp.SlidingTab;
 
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
 import com.niupiao.deliveryapp.Current.InProgressFragment;
 import com.niupiao.deliveryapp.Listings.ListingsFragment;
@@ -9,7 +9,7 @@ import com.niupiao.deliveryapp.Map.MapFragment;
 /**
  * Created by Inanity on 6/22/2015.
  */
-public class ViewPagerAdapter extends FragmentStatePagerAdapter {
+public class ViewPagerAdapter extends FragmentPagerAdapter {
 
     public CharSequence Titles[];
     public int numTabs;
