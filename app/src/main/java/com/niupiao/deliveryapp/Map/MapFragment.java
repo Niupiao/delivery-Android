@@ -1,6 +1,5 @@
-package com.niupiao.deliveryapp.MainTabs;
+package com.niupiao.deliveryapp.Map;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,12 @@ import com.niupiao.deliveryapp.R;
 /**
  * Created by Inanity on 6/22/2015.
  */
-public class InProgressFragment extends android.support.v4.app.Fragment {
+public class MapFragment extends android.support.v4.app.Fragment {
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_my_tasks_tab, container, false);
+        View v = inflater.inflate(R.layout.fragment_map_tab, container, false);
 
         return v;
     }

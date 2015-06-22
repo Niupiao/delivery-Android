@@ -1,6 +1,10 @@
-package com.niupiao.deliveryapp.MainTabs;
+package com.niupiao.deliveryapp.SlidingTab;
 
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import com.niupiao.deliveryapp.Current.InProgressFragment;
+import com.niupiao.deliveryapp.Listings.ListingsFragment;
+import com.niupiao.deliveryapp.Map.MapFragment;
 
 /**
  * Created by Inanity on 6/22/2015.
@@ -20,14 +24,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public android.support.v4.app.Fragment getItem(int position) {
         if (position == 0) {
-            DeliveriesFragment dF = new DeliveriesFragment();
+            ListingsFragment dF = new ListingsFragment();
             return dF;
         }
         if (position == 1) {
-            MyDeliveriesFragment mDF = new MyDeliveriesFragment();
+            InProgressFragment mDF = new InProgressFragment();
             return mDF;
-        }
-        if (position == 2) {
+        } else {
             MapFragment mF = new MapFragment();
             return mF;
         }

@@ -1,7 +1,7 @@
 package com.niupiao.deliveryapp.Login;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +21,10 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mIdField = (EditText)findViewById(R.id.username_et);
-        mPasswordField = (EditText)findViewById(R.id.password_et);
+        mIdField = (EditText) findViewById(R.id.username_et);
+        mPasswordField = (EditText) findViewById(R.id.password_et);
 
-        mLoginButton = (Button)findViewById(R.id.login_button);
+        mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

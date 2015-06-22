@@ -1,4 +1,4 @@
-package com.niupiao.deliveryapp.MainTabs;
+package com.niupiao.deliveryapp.Current;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,11 +10,12 @@ import com.niupiao.deliveryapp.R;
 /**
  * Created by Inanity on 6/22/2015.
  */
-public class ListingsFragment extends android.support.v4.app.Fragment {
+public class InProgressFragment extends android.support.v4.app.Fragment {
 
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View v = inflater.inflate(R.layout.fragment_deliveries_tab, container, false);
+        View v = inflater.inflate(R.layout.fragment_in_progress, container, false);
 
         return v;
     }

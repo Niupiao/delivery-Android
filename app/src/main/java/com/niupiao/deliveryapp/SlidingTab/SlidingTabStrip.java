@@ -130,6 +130,7 @@ class SlidingTabStrip extends LinearLayout {
 
         // Thin underline along the entire bottom edge
         canvas.drawRect(0, height - mBottomBorderThickness, getWidth(), height, mBottomBorderPaint);
+
     }
 
     /**
