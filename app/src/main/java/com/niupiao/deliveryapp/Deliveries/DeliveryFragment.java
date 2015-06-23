@@ -45,9 +45,6 @@ public class DeliveryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_delivery, parent, false);
 
-        mTitleTextView = (TextView) v.findViewById(R.id.delivery_name_tv);
-        mTitleTextView.setText(mDelivery.mName);
-
         return v;
     }
 

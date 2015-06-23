@@ -10,7 +10,7 @@
         android:id="@android:id/list"
         android:background="#e5e4e0"
         android:divider="@android:color/transparent"
-        android:dividerHeight="3.0dp"
+        android:dividerHeight="5.0dp"
         android:padding="10.0dp"/>
 
     <LinearLayout

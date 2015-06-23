@@ -25,15 +25,17 @@ public class MainTabActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
 
+        getSupportActionBar().setElevation(6);
+
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 
         mViewPager = (ViewPager) findViewById(R.id.delivery_list_viewPager);
         mViewPager.setAdapter(mAdapter);
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setIndicatorColor(getResources().getColor(R.color.tabsScrollColor));
+        tabs.setIndicatorColor(getResources().getColor(R.color.ColorPrimaryDark));
         tabs.setShouldExpand(true);
-        tabs.setUnderlineHeight(2);
+        tabs.setUnderlineHeight(1);
         tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimaryDark));
         tabs.setTextColorResource(R.color.selector);
         tabs.setDividerColor(getResources().getColor(R.color.material_blue_grey_800));
