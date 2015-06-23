@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DeliveryPagerActivity"
+            android:name=".Deliveries.DeliveryPagerActivity"
             android:label="Delivery">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

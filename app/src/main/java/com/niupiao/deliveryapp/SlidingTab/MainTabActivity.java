@@ -3,7 +3,6 @@ package com.niupiao.deliveryapp.SlidingTab;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,7 +14,6 @@ import com.niupiao.deliveryapp.R;
  */
 public class MainTabActivity extends ActionBarActivity {
 
-    private Toolbar mToolbar;
     ViewPager mViewPager;
     ViewPagerAdapter mAdapter;
     PagerSlidingTabStrip tabs;
@@ -26,9 +24,6 @@ public class MainTabActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_tab);
-
-        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(mToolbar);
 
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 

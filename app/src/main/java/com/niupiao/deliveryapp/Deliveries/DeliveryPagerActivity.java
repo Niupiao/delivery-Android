@@ -1,11 +1,12 @@
-package com.niupiao.deliveryapp;
+package com.niupiao.deliveryapp.Deliveries;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
+
+import com.niupiao.deliveryapp.R;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -16,7 +17,6 @@ import java.util.UUID;
 public class DeliveryPagerActivity extends ActionBarActivity {
     private ViewPager mViewPager;
     private ArrayList<Delivery> mDeliveries;
-    android.support.v7.widget.Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,9 +24,6 @@ public class DeliveryPagerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_delivery_viewpager);
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-
-        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        setSupportActionBar(mToolbar);
 
         mDeliveries = DataSource.get(this).getDeliveries();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();

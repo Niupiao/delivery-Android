@@ -1,4 +1,4 @@
-package com.niupiao.deliveryapp.Current;
+package com.niupiao.deliveryapp.Tabs;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.niupiao.deliveryapp.DataSource;
-import com.niupiao.deliveryapp.Delivery;
-import com.niupiao.deliveryapp.DeliveryFragment;
-import com.niupiao.deliveryapp.DeliveryPagerActivity;
+import com.niupiao.deliveryapp.Deliveries.DataSource;
+import com.niupiao.deliveryapp.Deliveries.Delivery;
+import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
+import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
 
 import java.util.ArrayList;
@@ -21,22 +21,22 @@ import java.util.ArrayList;
 /**
  * Created by Inanity on 6/22/2015.
  */
-public class InProgressFragment extends ListFragment {
+public class ListingsFragment extends ListFragment {
 
-    private ArrayList<Delivery> mInProgress;
+    private ArrayList<Delivery> mDeliveries;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mInProgress = DataSource.get(getActivity()).getInProgress();
+        mDeliveries = DataSource.get(getActivity()).getDeliveries();
 
-        DeliveryAdapter adapter = new DeliveryAdapter(mInProgress);
+        DeliveryAdapter adapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_in_progress, container, false);
+        View v = inflater.inflate(R.layout.fragment_listings, container, false);
         return v;
     }
 
@@ -49,7 +49,7 @@ public class InProgressFragment extends ListFragment {
         startActivity(i);
     }
 
-    private class DeliveryAdapter extends ArrayAdapter<Delivery> {
+    public class DeliveryAdapter extends ArrayAdapter<Delivery> {
 
         public DeliveryAdapter(ArrayList<Delivery> deliveries) {
             super(getActivity(), 0, deliveries);

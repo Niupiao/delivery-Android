@@ -1,12 +1,15 @@
-package com.niupiao.deliveryapp;
+package com.niupiao.deliveryapp.Deliveries;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.niupiao.deliveryapp.R;
 
 import java.util.UUID;
 
@@ -52,7 +55,8 @@ public class DeliveryFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //
+                if (NavUtils.getParentActivityName(getActivity()) != null)
+                    NavUtils.navigateUpFromSameTask(getActivity());
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

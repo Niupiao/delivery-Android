@@ -2,9 +2,9 @@ package com.niupiao.deliveryapp.SlidingTab;
 
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.niupiao.deliveryapp.Current.InProgressFragment;
-import com.niupiao.deliveryapp.Listings.ListingsFragment;
 import com.niupiao.deliveryapp.Map.MapFragment;
+import com.niupiao.deliveryapp.Tabs.InProgressFragment;
+import com.niupiao.deliveryapp.Tabs.ListingsFragment;
 
 /**
  * Created by Inanity on 6/22/2015.

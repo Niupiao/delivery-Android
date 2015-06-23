@@ -1,4 +1,4 @@
-package com.niupiao.deliveryapp;
+package com.niupiao.deliveryapp.Deliveries;
 
 import android.content.Context;
 
