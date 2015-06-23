@@ -54,6 +54,7 @@
                 android:layout_weight="2"
                 android:paddingTop="10dp"
                 android:gravity="center_horizontal"
+                android:id="@+id/pickup_distance"
                 android:text="20 mi"
                 android:textColor="#CC000000"
                 android:textSize="15sp"/>
@@ -78,8 +79,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Address:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -112,8 +112,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Pickup Time:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -146,8 +145,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Name:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -180,8 +178,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Phone:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -220,8 +217,7 @@
             android:text="Drop Off"
             android:textColor="@color/ColorPrimary"
             android:textSize="30sp"
-            android:textStyle="bold"
-            android:id="@+id/"/>
+            android:textStyle="bold"/>
 
         <View
             android:layout_width="match_parent"
@@ -243,8 +239,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Distance from Pickup:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -254,8 +249,7 @@
                 android:gravity="center_horizontal"
                 android:text="5 mi"
                 android:textColor="#CC000000"
-                android:textSize="15sp"
-                android:id="@+id/"/>
+                android:textSize="15sp"/>
 
             <View
                 android:layout_width="match_parent"
@@ -277,8 +271,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Address:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -311,8 +304,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Drop Off Time:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -345,8 +337,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Name:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -379,8 +370,7 @@
                 android:layout_weight="1"
                 android:gravity="left"
                 android:text="Phone:"
-                android:textColor="#80000000"
-                android:id="@+id/"/>
+                android:textColor="#80000000"/>
 
             <TextView
                 android:layout_width="match_parent"
