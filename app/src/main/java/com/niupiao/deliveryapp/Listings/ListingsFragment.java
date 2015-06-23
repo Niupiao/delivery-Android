@@ -24,13 +24,11 @@ import java.util.ArrayList;
 public class ListingsFragment extends ListFragment {
 
     private ArrayList<Delivery> mDeliveries;
-    private ListView mListView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
-
 
         DeliveryAdapter adapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(adapter);
@@ -67,7 +65,7 @@ public class ListingsFragment extends ListFragment {
             Delivery d = getItem(position);
             // initialize list item view
             TextView nameTv = (TextView) convertView.findViewById(R.id.list_item_name);
-            nameTv.setText(d.mName);
+            //nameTv.setText(d.mName);
 
             return convertView;
         }

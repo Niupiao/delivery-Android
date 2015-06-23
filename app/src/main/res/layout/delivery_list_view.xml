@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal">
+              android:layout_height="40dp"
+              android:layout_margin="15dp"
+              android:orientation="horizontal"
+              android:background="@android:color/white"
+              android:elevation="1dp">
+
+    <View
+        android:id="@+id/priority_indicator"
+        android:layout_width="5dp"
+        android:layout_height="30dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="5dp"
+        android:background="@color/ColorPrimary"/>
 
     <TextView
         android:id="@+id/list_item_name"
-        android:layout_marginLeft="20dp"
+        android:layout_toRightOf="@id/priority_indicator"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:text="Hello"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"/>
+        android:text="23 Miles"/>
+
+    <View
+        android:layout_margin="10dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#cccbcb"/>
+
+    <TextView
+        android:id="@+id/list_item_address"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:gravity="center"
+        android:text="4th Street"/>
+
+    <View
+        android:layout_margin="10dp"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="#cccbcb"/>
+
+    <TextView
+        android:id="@+id/list_item_time_left"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:text="15 minutes"/>
 
 </LinearLayout>

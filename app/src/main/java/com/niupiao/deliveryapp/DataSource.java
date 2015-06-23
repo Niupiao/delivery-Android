@@ -13,6 +13,7 @@ public class DataSource {
     private Context mAppContext;
 
     private ArrayList<Delivery> mDeliveries;
+    private ArrayList<Delivery> mInProgress;
 
     private DataSource(Context appContext) {
         mAppContext = appContext;
@@ -20,6 +21,11 @@ public class DataSource {
         for (int i = 1; i < 11; i++) {
             Delivery d = new Delivery(i + "");
             mDeliveries.add(d);
+        }
+
+        for (int i = 1; i < 4; i++) {
+            Delivery d = new Delivery(11 + i + "");
+            mInProgress.add(d);
         }
     }
 
@@ -34,8 +40,16 @@ public class DataSource {
         return mDeliveries;
     }
 
+    public ArrayList<Delivery> getInProgress() {
+        return mInProgress;
+    }
+
     public Delivery getDelivery(UUID id) {
         for (Delivery d : mDeliveries) {
+            if (d.getId().equals(id))
+                return d;
+        }
+        for (Delivery d : mInProgress) {
             if (d.getId().equals(id))
                 return d;
         }

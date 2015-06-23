@@ -7,7 +7,11 @@
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@android:id/list"/>
+        android:id="@android:id/list"
+        android:background="#e5e4e0"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="3.0dp"
+        android:padding="10.0dp"/>
 
     <LinearLayout
         android:id="@android:id/empty"
@@ -25,7 +29,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="There are no crimes."
+            android:text="There are no deliveries."
             android:id="@+id/no_crimes_tv"
             android:layout_gravity="center_vertical"/>
 
