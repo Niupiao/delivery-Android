@@ -17,6 +17,7 @@ public class DataSource {
 
     private DataSource(Context appContext) {
         mAppContext = appContext;
+        mInProgress = new ArrayList<Delivery>();
         mDeliveries = new ArrayList<Delivery>();
         for (int i = 1; i < 11; i++) {
             Delivery d = new Delivery(i + "");

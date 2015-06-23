@@ -49,7 +49,7 @@ public class ListingsFragment extends ListFragment {
         startActivity(i);
     }
 
-    private class DeliveryAdapter extends ArrayAdapter<Delivery> {
+    public class DeliveryAdapter extends ArrayAdapter<Delivery> {
 
         public DeliveryAdapter(ArrayList<Delivery> deliveries) {
             super(getActivity(), 0, deliveries);

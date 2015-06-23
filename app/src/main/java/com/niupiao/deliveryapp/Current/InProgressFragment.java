@@ -1,12 +1,28 @@
 package com.niupiao.deliveryapp.Current;
 
-import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.niupiao.deliveryapp.DataSource;
+import com.niupiao.deliveryapp.Delivery;
+import com.niupiao.deliveryapp.DeliveryFragment;
+import com.niupiao.deliveryapp.DeliveryPagerActivity;
+import com.niupiao.deliveryapp.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Inanity on 6/22/2015.
  */
-public class InProgressFragment extends Fragment {
-/*
+public class InProgressFragment extends ListFragment {
+
     private ArrayList<Delivery> mInProgress;
 
     @Override
@@ -54,5 +70,4 @@ public class InProgressFragment extends Fragment {
             return convertView;
         }
     }
-    */
 }
