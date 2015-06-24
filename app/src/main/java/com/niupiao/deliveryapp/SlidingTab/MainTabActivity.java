@@ -58,25 +58,35 @@ public class MainTabActivity extends ActionBarActivity {
         tabs.setViewPager(mViewPager);
 
         final FloatingActionMenu sortMenu = (FloatingActionMenu) findViewById(R.id.menu_sort);
-        sortMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+        sortMenu.setClosedOnTouchOutside(true);
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onMenuToggle(boolean b) {
-                int cur = mViewPager.getCurrentItem();
-                if (cur == 0 || cur == 1) {
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    sortMenu.hideMenuButton(true);
+                } else {
                     curFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"
                             + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
-
-                    if (curFragment != null) {
-                        if (cur == 0) {
-                            mCurrentList = ((ListingsFragment) curFragment).curList;
-                        } else {
-                            mCurrentList = ((InProgressFragment) curFragment).curList;
-                        }
+                    if (position == 0) {
+                        mCurrentList = ((ListingsFragment) curFragment).curList;
+                    } else {
+                        mCurrentList = ((InProgressFragment) curFragment).curList;
                     }
+                    sortMenu.showMenuButton(true);
                 }
             }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
         });
-        sortMenu.setClosedOnTouchOutside(true);
 
         final FloatingActionButton bountySort = (FloatingActionButton) findViewById(R.id.menu_item_sort_bounty);
         bountySort.setOnClickListener(new View.OnClickListener() {
@@ -113,27 +123,6 @@ public class MainTabActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 sortMenu.close(true);
-            }
-        });
-
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 2) {
-                    sortMenu.hideMenuButton(true);
-                } else {
-                    sortMenu.showMenuButton(true);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
             }
         });
     }
