@@ -20,12 +20,13 @@ public class DataSource {
         mInProgress = new ArrayList<Delivery>();
         mDeliveries = new ArrayList<Delivery>();
         for (int i = 1; i < 11; i++) {
-            Delivery d = new Delivery(i + "");
+            Delivery d = new Delivery(i + "", i);
+            d.mBounty = i;
             mDeliveries.add(d);
         }
 
-        for (int i = 1; i < 4; i++) {
-            Delivery d = new Delivery(11 + i + "");
+        for (int i = 1; i < 6; i++) {
+            Delivery d = new Delivery(11 + i + "", i);
             mInProgress.add(d);
         }
     }
@@ -46,11 +47,11 @@ public class DataSource {
     }
 
     public Delivery getDelivery(UUID id) {
-        for (Delivery d : mDeliveries) {
+        for (Delivery d : mInProgress) {
             if (d.getId().equals(id))
                 return d;
         }
-        for (Delivery d : mInProgress) {
+        for (Delivery d : mDeliveries) {
             if (d.getId().equals(id))
                 return d;
         }

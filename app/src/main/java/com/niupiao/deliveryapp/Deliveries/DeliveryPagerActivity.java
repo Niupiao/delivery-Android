@@ -17,6 +17,7 @@ import java.util.UUID;
 public class DeliveryPagerActivity extends ActionBarActivity {
     private ViewPager mViewPager;
     private ArrayList<Delivery> mDeliveries;
+    private ArrayList<Delivery> mInProgress;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,9 +25,10 @@ public class DeliveryPagerActivity extends ActionBarActivity {
         setContentView(R.layout.activity_delivery_viewpager);
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-
         mDeliveries = DataSource.get(this).getDeliveries();
+        mInProgress = DataSource.get(this).getInProgress();
         android.support.v4.app.FragmentManager fm = getSupportFragmentManager();
+
         mViewPager.setAdapter(new FragmentPagerAdapter(fm) {
             @Override
             public Fragment getItem(int position) {
@@ -40,11 +42,21 @@ public class DeliveryPagerActivity extends ActionBarActivity {
             }
         });
 
+        boolean goOn = true;
         UUID id = (UUID) getIntent().getSerializableExtra(DeliveryFragment.EXTRA_DELIVERY_ID);
-        for (int i = 0; i < mDeliveries.size(); i++) {
-            if (mDeliveries.get(i).getId().equals(id)) {
+        for (int i = 0; i < mInProgress.size(); i++) {
+            if (mInProgress.get(i).getId().equals(id)) {
                 mViewPager.setCurrentItem(i);
+                goOn = false;
                 break;
+            }
+        }
+        if (goOn) {
+            for (int i = 0; i < mDeliveries.size(); i++) {
+                if (mDeliveries.get(i).getId().equals(id)) {
+                    mViewPager.setCurrentItem(i);
+                    break;
+                }
             }
         }
 

@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
@@ -59,13 +58,11 @@ public class InProgressFragment extends ListFragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater()
-                        .inflate(R.layout.delivery_list_view, null);
+                        .inflate(R.layout.list_view_current, null);
             }
 
             Delivery d = getItem(position);
             // initialize list item view
-            TextView nameTv = (TextView) convertView.findViewById(R.id.list_item_name);
-            //nameTv.setText(d.mName);
 
             return convertView;
         }

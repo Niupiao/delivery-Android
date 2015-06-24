@@ -26,6 +26,7 @@ public class MainTabActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main_tab);
 
         getSupportActionBar().setElevation(6);
+        getSupportActionBar().setTitle("Delivery");
 
         mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 

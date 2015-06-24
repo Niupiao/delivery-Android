@@ -1,5 +1,6 @@
 package com.niupiao.deliveryapp.Deliveries;
 
+import java.sql.Time;
 import java.util.UUID;
 
 /**
@@ -7,14 +8,35 @@ import java.util.UUID;
  */
 public class Delivery {
 
-    public String mName;
-    public String mAddress;
     public UUID mId;
+    public String mName;
+    public int mBounty;
 
-    public Delivery(String name) {
-        mName = "Delivery " + name;
-        mAddress = "Street Name";
+    public String mPickupName;
+    public String mPickupAddress;
+    public Time mPickupTime;
+    public String mPickupPhone;
+
+    public String mDropoffName;
+    public String mDropoffAddress;
+    public String mDropoffTime;
+    public String mDropoffPhone;
+
+    public Delivery(String name, int bounty) {
         mId = UUID.randomUUID();
+        mName = "Delivery " + name;
+        mBounty = bounty;
+        mPickupAddress = "Street Name";
+        /*
+        mPickupName;
+        mPickupTime;
+        mPickupPhone;
+
+        mDropoffName;
+        mDropoffAddress;
+        mDropoffTime;
+        mDropoffPhone;
+        */
     }
 
     @Override
