@@ -60,7 +60,7 @@ public class MainTabActivity extends ActionBarActivity {
         final FloatingActionMenu sortMenu = (FloatingActionMenu) findViewById(R.id.menu_sort);
         sortMenu.setClosedOnTouchOutside(true);
 
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
