@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
@@ -16,6 +18,8 @@ import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Inanity on 6/22/2015.
@@ -36,6 +40,67 @@ public class InProgressFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_in_progress, container, false);
+
+        final FloatingActionMenu sortMenu = (FloatingActionMenu) v.findViewById(R.id.current_menu_sort);
+        sortMenu.setClosedOnTouchOutside(true);
+
+        final FloatingActionButton bountySort = (FloatingActionButton) v.findViewById(R.id.current_sort_bounty);
+        bountySort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Sort by bounty
+                Collections.sort(mInProgress, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.getBounty() < d2.getBounty())
+                            return 1;
+                        if (d1.getBounty() > d2.getBounty())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+                sortMenu.close(true);
+            }
+        });
+
+        final FloatingActionButton timeSort = (FloatingActionButton) v.findViewById(R.id.current_sort_time);
+        timeSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(mInProgress, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.getBounty() < d2.getBounty())
+                            return 1;
+                        if (d1.getBounty() > d2.getBounty())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+                sortMenu.close(true);
+            }
+        });
+
+        final FloatingActionButton distanceSort = (FloatingActionButton) v.findViewById(R.id.current_sort_distance);
+        distanceSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(mInProgress, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.getBounty() < d2.getBounty())
+                            return 1;
+                        if (d1.getBounty() > d2.getBounty())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+                sortMenu.close(true);
+            }
+        });
         return v;
     }
 

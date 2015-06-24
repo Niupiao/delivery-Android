@@ -63,9 +63,9 @@ public class ListingsFragment extends ListFragment {
                 // Sort by bounty
                 Collections.sort(mDeliveries, new Comparator<Delivery>() {
                     public int compare(Delivery d1, Delivery d2) {
-                        if (d1.mBounty < d2.mBounty)
+                        if (d1.getBounty() < d2.getBounty())
                             return 1;
-                        if (d1.mBounty > d2.mBounty)
+                        if (d1.getBounty() > d2.getBounty())
                             return -1;
                         else
                             return 0;
@@ -82,9 +82,9 @@ public class ListingsFragment extends ListFragment {
             public void onClick(View v) {
                 Collections.sort(mDeliveries, new Comparator<Delivery>() {
                     public int compare(Delivery d1, Delivery d2) {
-                        if (d1.mBounty < d2.mBounty)
+                        if (d1.getBounty() < d2.getBounty())
                             return 1;
-                        if (d1.mBounty > d2.mBounty)
+                        if (d1.getBounty() > d2.getBounty())
                             return -1;
                         else
                             return 0;
@@ -101,9 +101,9 @@ public class ListingsFragment extends ListFragment {
             public void onClick(View v) {
                 Collections.sort(mDeliveries, new Comparator<Delivery>() {
                     public int compare(Delivery d1, Delivery d2) {
-                        if (d1.mBounty < d2.mBounty)
+                        if (d1.getBounty() < d2.getBounty())
                             return 1;
-                        if (d1.mBounty > d2.mBounty)
+                        if (d1.getBounty() > d2.getBounty())
                             return -1;
                         else
                             return 0;
@@ -141,7 +141,20 @@ public class ListingsFragment extends ListFragment {
 
             Delivery d = getItem(position);
             TextView bounty = (TextView) convertView.findViewById(R.id.list_item_bounty);
-            bounty.setText("$" + d.mBounty);
+            bounty.setText("$" + d.getBounty());
+
+            View statusColorView = convertView.findViewById(R.id.priority_indicator);
+            switch (d.getDeliveryStatus()) {
+                case Delivery.READY_FOR_PICKUP:
+                    statusColorView.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+                    break;
+                case Delivery.PICKED_UP:
+                    statusColorView.setBackgroundColor(getResources().getColor(R.color.ColorPrimary));
+                    break;
+                case Delivery.DELIVERED:
+                    statusColorView.setBackgroundColor(getResources().getColor(R.color.ColorPrimaryDark));
+                    break;
+            }
 
             return convertView;
         }
