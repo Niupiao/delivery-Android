@@ -3,14 +3,13 @@ package com.niupiao.deliveryapp.Tabs;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
@@ -18,8 +17,6 @@ import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Created by Inanity on 6/22/2015.
@@ -27,11 +24,13 @@ import java.util.Comparator;
 public class InProgressFragment extends ListFragment {
 
     private ArrayList<Delivery> mInProgress;
+    public ArrayList<Delivery> curList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mInProgress = DataSource.get(getActivity()).getInProgress();
+        curList = mInProgress;
 
         DeliveryAdapter adapter = new DeliveryAdapter(mInProgress);
         setListAdapter(adapter);
@@ -41,66 +40,16 @@ public class InProgressFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_in_progress, container, false);
 
-        final FloatingActionMenu sortMenu = (FloatingActionMenu) v.findViewById(R.id.current_menu_sort);
-        sortMenu.setClosedOnTouchOutside(true);
-
-        final FloatingActionButton bountySort = (FloatingActionButton) v.findViewById(R.id.current_sort_bounty);
-        bountySort.setOnClickListener(new View.OnClickListener() {
+        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_in_progress);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                // Sort by bounty
-                Collections.sort(mInProgress, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
-                            return 1;
-                        if (d1.getBounty() > d2.getBounty())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
+            public void onRefresh() {
+                // Fetch new data here
                 ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                sortMenu.close(true);
+                swipeLayout.setRefreshing(false);
             }
         });
 
-        final FloatingActionButton timeSort = (FloatingActionButton) v.findViewById(R.id.current_sort_time);
-        timeSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Collections.sort(mInProgress, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
-                            return 1;
-                        if (d1.getBounty() > d2.getBounty())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                sortMenu.close(true);
-            }
-        });
-
-        final FloatingActionButton distanceSort = (FloatingActionButton) v.findViewById(R.id.current_sort_distance);
-        distanceSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Collections.sort(mInProgress, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
-                            return 1;
-                        if (d1.getBounty() > d2.getBounty())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                sortMenu.close(true);
-            }
-        });
         return v;
     }
 

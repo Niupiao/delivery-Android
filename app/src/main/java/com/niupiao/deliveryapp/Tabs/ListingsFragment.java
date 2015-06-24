@@ -11,8 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
@@ -20,8 +18,6 @@ import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Created by Inanity on 6/22/2015.
@@ -29,11 +25,13 @@ import java.util.Comparator;
 public class ListingsFragment extends ListFragment {
 
     private ArrayList<Delivery> mDeliveries;
+    public ArrayList<Delivery> curList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
+        curList = mDeliveries;
 
         DeliveryAdapter adapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(adapter);
@@ -50,67 +48,6 @@ public class ListingsFragment extends ListFragment {
                 // Fetch new data here
                 ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
-            }
-        });
-
-        final FloatingActionMenu sortMenu = (FloatingActionMenu) v.findViewById(R.id.menu_sort);
-        sortMenu.setClosedOnTouchOutside(true);
-
-        final FloatingActionButton bountySort = (FloatingActionButton) v.findViewById(R.id.menu_item_sort_bounty);
-        bountySort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Sort by bounty
-                Collections.sort(mDeliveries, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
-                            return 1;
-                        if (d1.getBounty() > d2.getBounty())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                sortMenu.close(true);
-            }
-        });
-
-        final FloatingActionButton timeSort = (FloatingActionButton) v.findViewById(R.id.menu_item_sort_time);
-        timeSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Collections.sort(mDeliveries, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
-                            return 1;
-                        if (d1.getBounty() > d2.getBounty())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                sortMenu.close(true);
-            }
-        });
-
-        final FloatingActionButton distanceSort = (FloatingActionButton) v.findViewById(R.id.menu_item_sort_distance);
-        distanceSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Collections.sort(mDeliveries, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
-                            return 1;
-                        if (d1.getBounty() > d2.getBounty())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                sortMenu.close(true);
             }
         });
 

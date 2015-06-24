@@ -1,80 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:fab="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:gravity="center"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout
+    android:id="@+id/progress_list_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
-    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_in_progress"
+        xmlns:android="http://schemas.android.com/apk/res/android"
                                                   android:layout_width="match_parent"
-                                                  android:layout_height="match_parent"
-                                                  android:id="@+id/swipe_refresh_in_progress">
+        android:layout_height="match_parent">
 
         <ListView
+            android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@android:id/list"
             android:background="#e5e4e0"
             android:divider="@android:color/transparent"
             android:dividerHeight="7.0dp"
             android:padding="7.0dp"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/current_menu_sort"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="15dp"
-        fab:menu_colorNormal="#2196f3"
-        fab:menu_colorPressed="@color/ColorPrimaryLight"
-        fab:menu_icon="@drawable/fab_add"
-        fab:menu_labels_colorNormal="#2196f3"
-        fab:menu_labels_colorPressed="#2196f3">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/current_sort_bounty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@android:drawable/ic_input_add"
-            fab:fab_colorNormal="@color/ColorPrimary"
-            fab:fab_colorPressed="@color/ColorPrimaryLight"
-            fab:fab_size="normal"
-            fab:fab_label="Sort by Bounty"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/current_sort_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@android:drawable/ic_input_add"
-            fab:fab_colorNormal="@color/ColorPrimary"
-            fab:fab_colorPressed="@color/ColorPrimaryLight"
-            fab:fab_size="normal"
-            fab:fab_label="Sort by Distance"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/current_sort_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="8dp"
-            android:src="@android:drawable/ic_input_add"
-            fab:fab_colorNormal="@color/ColorPrimary"
-            fab:fab_colorPressed="@color/ColorPrimaryLight"
-            fab:fab_size="normal"
-            fab:fab_label="Sort by Time"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
 
 </RelativeLayout>

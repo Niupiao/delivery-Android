@@ -1,13 +1,25 @@
 package com.niupiao.deliveryapp.SlidingTab;
 
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.R;
+import com.niupiao.deliveryapp.Tabs.InProgressFragment;
+import com.niupiao.deliveryapp.Tabs.ListingsFragment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Inanity on 6/22/2015.
@@ -19,6 +31,8 @@ public class MainTabActivity extends ActionBarActivity {
     PagerSlidingTabStrip tabs;
     CharSequence titles[] = {"Listings", "Current", "Map"};
     int numTabs = 3;
+    ArrayList<Delivery> mCurrentList;
+    ListFragment curFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,17 +54,88 @@ public class MainTabActivity extends ActionBarActivity {
         tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimaryDark));
         tabs.setTextColorResource(R.color.selector);
         tabs.setDividerColor(getResources().getColor(R.color.material_blue_grey_800));
-        /*
-        tabs.setDistributeEvenly(true);
-        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsScrollColor);
-            }
-        });
-        */
 
         tabs.setViewPager(mViewPager);
+
+        final FloatingActionMenu sortMenu = (FloatingActionMenu) findViewById(R.id.menu_sort);
+        sortMenu.setOnMenuToggleListener(new FloatingActionMenu.OnMenuToggleListener() {
+            @Override
+            public void onMenuToggle(boolean b) {
+                int cur = mViewPager.getCurrentItem();
+                if (cur == 0 || cur == 1) {
+                    curFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"
+                            + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
+
+                    if (curFragment != null) {
+                        if (cur == 0) {
+                            mCurrentList = ((ListingsFragment) curFragment).curList;
+                        } else {
+                            mCurrentList = ((InProgressFragment) curFragment).curList;
+                        }
+                    }
+                }
+            }
+        });
+        sortMenu.setClosedOnTouchOutside(true);
+
+        final FloatingActionButton bountySort = (FloatingActionButton) findViewById(R.id.menu_item_sort_bounty);
+        bountySort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(mCurrentList, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.getBounty() < d2.getBounty())
+                            return 1;
+                        if (d1.getBounty() > d2.getBounty())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+
+                ((ArrayAdapter) curFragment.getListAdapter()).notifyDataSetChanged();
+                sortMenu.close(true);
+            }
+        });
+
+        final FloatingActionButton timeSort = (FloatingActionButton) findViewById(R.id.menu_item_sort_time);
+        timeSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sortMenu.close(true);
+            }
+        });
+
+        final FloatingActionButton distanceSort = (FloatingActionButton) findViewById(R.id.menu_item_sort_distance);
+        distanceSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sortMenu.close(true);
+            }
+        });
+
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 2) {
+                    sortMenu.hideMenuButton(true);
+                } else {
+                    sortMenu.showMenuButton(true);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
