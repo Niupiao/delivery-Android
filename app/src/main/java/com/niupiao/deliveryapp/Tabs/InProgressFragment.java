@@ -24,17 +24,17 @@ import java.util.ArrayList;
  */
 public class InProgressFragment extends ListFragment {
 
-    private ArrayList<Delivery> mInProgress;
-    public ArrayList<Delivery> curList;
+    public ArrayList<Delivery> mInProgress;
+    public DeliveryAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mInProgress = DataSource.get(getActivity()).getInProgress();
-        curList = mInProgress;
+        setHasOptionsMenu(true);
 
-        DeliveryAdapter adapter = new DeliveryAdapter(mInProgress);
-        setListAdapter(adapter);
+        mAdapter = new DeliveryAdapter(mInProgress);
+        setListAdapter(mAdapter);
     }
 
     @Override

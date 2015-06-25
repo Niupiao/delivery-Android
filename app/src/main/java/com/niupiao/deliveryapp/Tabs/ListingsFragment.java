@@ -7,12 +7,10 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.github.clans.fab.FloatingActionMenu;
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
@@ -27,17 +25,14 @@ import java.util.ArrayList;
  */
 public class ListingsFragment extends ListFragment {
 
-    private ArrayList<Delivery> mDeliveries;
-    public ArrayList<Delivery> curList;
-    private DeliveryAdapter mAdapter;
-    int mLastFirstVisibleItem;
+    public ArrayList<Delivery> mDeliveries;
+    public DeliveryAdapter mAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
-        curList = mDeliveries;
 
         mAdapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(mAdapter);
@@ -56,32 +51,6 @@ public class ListingsFragment extends ListFragment {
                 // Fetch new data here
                 ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
-            }
-        });
-
-        final FloatingActionMenu sortMenu = (FloatingActionMenu) getActivity().findViewById(R.id.menu_sort);
-        final ListView lv = (ListView) v.findViewById(android.R.id.list);
-        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                final int currentFirstVisibleItem = lv.getFirstVisiblePosition();
-
-                if (currentFirstVisibleItem > mLastFirstVisibleItem) {
-                    // Scrolling down
-                    //sortMenu.animate().cancel();
-                    //sortMenu.animate().translationYBy(350);
-                } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
-                    // Scrolling up
-                    //sortMenu.animate().cancel();
-                    //sortMenu.animate().translationYBy(-350);
-                }
-
-                mLastFirstVisibleItem = currentFirstVisibleItem;
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
             }
         });
 
@@ -135,48 +104,4 @@ public class ListingsFragment extends ListFragment {
             return convertView;
         }
     }
-
-    /*
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        MenuItem spinner = menu.findItem(R.id.sort_spinner);
-        Spinner sortSpinner = (Spinner)MenuItemCompat.getActionView(spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_items,
-                android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sortSpinner.setAdapter(adapter);
-        sortSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0:
-                        // Sort by distance
-                        break;
-                    case 1:
-                        // Sort by time
-                        break;
-                    case 2:
-                        Collections.sort(mDeliveries, new Comparator<Delivery>() {
-                            public int compare(Delivery d1, Delivery d2) {
-                                if (d1.getWage() < d2.getWage())
-                                    return 1;
-                                if (d1.getWage() > d2.getWage())
-                                    return -1;
-                                else
-                                    return 0;
-                            }
-                        });
-
-                        ((DeliveryAdapter)getListAdapter()).notifyDataSetChanged();
-                        break;
-                }
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return true;
-    }
-    */
 }

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -69,9 +70,11 @@ public class MainTabActivity extends ActionBarActivity {
                     curFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"
                             + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
                     if (position == 0) {
-                        mCurrentList = ((ListingsFragment) curFragment).curList;
+                        mCurrentList = ((ListingsFragment) curFragment).mDeliveries;
+                        mCurAdapter = ((ListingsFragment) curFragment).mAdapter;
                     } else {
-                        mCurrentList = ((InProgressFragment) curFragment).curList;
+                        mCurrentList = ((InProgressFragment) curFragment).mInProgress;
+                        mCurAdapter = ((InProgressFragment) curFragment).mAdapter;
                     }
                     //sortMenu.showMenuButton(true);
                 }
@@ -148,7 +151,9 @@ public class MainTabActivity extends ActionBarActivity {
                             return 0;
                     }
                 });
+                Log.i("Sort distance:", "yes");
                 mCurAdapter.notifyDataSetChanged();
+                return true;
 
             case R.id.menu_sort_wage:
                 Collections.sort(mCurrentList, new Comparator<Delivery>() {
@@ -162,6 +167,8 @@ public class MainTabActivity extends ActionBarActivity {
                     }
                 });
                 mCurAdapter.notifyDataSetChanged();
+                Log.i("Sort wage:", "yes");
+                return true;
 
             case R.id.menu_sort_time:
                 Collections.sort(mCurrentList, new Comparator<Delivery>() {
@@ -175,13 +182,16 @@ public class MainTabActivity extends ActionBarActivity {
                     }
                 });
                 mCurAdapter.notifyDataSetChanged();
+                Log.i("Sort time:", "yes");
+                return true;
+            default:
+                return false;
         }
-
-        return true;
     }
 
     public void setCurrentList(ArrayAdapter<Delivery> curAdapter, ArrayList<Delivery> curList) {
         this.mCurAdapter = curAdapter;
         this.mCurrentList = curList;
     }
+
 }
