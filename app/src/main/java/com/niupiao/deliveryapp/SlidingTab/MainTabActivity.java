@@ -50,7 +50,7 @@ public class MainTabActivity extends ActionBarActivity {
         tabs.setShouldExpand(true);
         tabs.setUnderlineHeight(1);
         tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimaryDark));
-        tabs.setTextColorResource(R.color.selector);
+        tabs.setTextColorResource(R.drawable.selector);
         tabs.setDividerColor(getResources().getColor(R.color.material_blue_grey_800));
 
         tabs.setViewPager(mViewPager);
@@ -138,7 +138,18 @@ public class MainTabActivity extends ActionBarActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_sort_distance:
-                return true;
+                Collections.sort(mCurrentList, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.mDistance < d2.mDistance)
+                            return -1;
+                        if (d1.mDistance > d2.mDistance)
+                            return 1;
+                        else
+                            return 0;
+                    }
+                });
+                mCurAdapter.notifyDataSetChanged();
+
             case R.id.menu_sort_wage:
                 Collections.sort(mCurrentList, new Comparator<Delivery>() {
                     public int compare(Delivery d1, Delivery d2) {
@@ -151,12 +162,22 @@ public class MainTabActivity extends ActionBarActivity {
                     }
                 });
                 mCurAdapter.notifyDataSetChanged();
-                return true;
-            case R.id.menu_sort_time:
 
-            default:
-                return false;
+            case R.id.menu_sort_time:
+                Collections.sort(mCurrentList, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.getPickupTime() < d2.getPickupTime())
+                            return -1;
+                        if (d1.getPickupTime() > d2.getPickupTime())
+                            return 1;
+                        else
+                            return 0;
+                    }
+                });
+                mCurAdapter.notifyDataSetChanged();
         }
+
+        return true;
     }
 
     public void setCurrentList(ArrayAdapter<Delivery> curAdapter, ArrayList<Delivery> curList) {

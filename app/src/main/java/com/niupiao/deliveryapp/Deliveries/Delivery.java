@@ -1,6 +1,6 @@
 package com.niupiao.deliveryapp.Deliveries;
 
-import java.sql.Time;
+import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -14,35 +14,38 @@ public class Delivery {
 
     public UUID mId;
     public String mName;
-    public int Wage;
+    public int mWage;
+    public int mDistance;
 
     public String mPickupName;
     public String mPickupAddress;
-    public Time mPickupTime;
+    public int mPickupTime;
     public String mPickupPhone;
 
     public String mDropoffName;
     public String mDropoffAddress;
-    public String mDropoffTime;
+    public int mDropoffTime;
     public String mDropoffPhone;
     public int mDeliveryStatus;
 
-    public Delivery(String name, int bounty) {
+    public Delivery(String name) {
         mId = UUID.randomUUID();
-        mName = "Delivery " + name;
-        Wage = bounty;
-        mPickupAddress = "Street Name";
-        mDeliveryStatus = bounty % 3;
-        /*
-        mPickupName;
-        mPickupTime;
-        mPickupPhone;
 
-        mDropoffName;
-        mDropoffAddress;
-        mDropoffTime;
-        mDropoffPhone;
-        */
+        mName = "Delivery " + name;
+        mWage = new Random().nextInt(5) + 1;
+        mPickupAddress = "" + mDropoffTime + mPickupTime + " Hollybrook St";
+        mDeliveryStatus = READY_FOR_PICKUP;
+        mDistance = new Random().nextInt(11) + 1;
+
+        //mPickupName;
+        mPickupTime = new Random().nextInt(4) + 4;
+        //mPickupPhone;
+
+        //mDropoffName;
+        mDropoffAddress = "" + mWage + mDropoffTime + " Jenkins Rd";
+        mDropoffTime = new Random().nextInt(7) + 1;
+        //mDropoffPhone;
+
     }
 
     @Override
@@ -63,11 +66,11 @@ public class Delivery {
     }
 
     public int getWage() {
-        return Wage;
+        return mWage;
     }
 
     public void setWage(int wage) {
-        Wage = wage;
+        mWage = wage;
     }
 
     public String getPickupName() {
@@ -86,11 +89,11 @@ public class Delivery {
         mPickupAddress = pickupAddress;
     }
 
-    public Time getPickupTime() {
+    public int getPickupTime() {
         return mPickupTime;
     }
 
-    public void setPickupTime(Time pickupTime) {
+    public void setPickupTime(int pickupTime) {
         mPickupTime = pickupTime;
     }
 
@@ -118,11 +121,11 @@ public class Delivery {
         mDropoffAddress = dropoffAddress;
     }
 
-    public String getDropoffTime() {
+    public int getDropoffTime() {
         return mDropoffTime;
     }
 
-    public void setDropoffTime(String dropoffTime) {
+    public void setDropoffTime(int dropoffTime) {
         mDropoffTime = dropoffTime;
     }
 

@@ -20,13 +20,12 @@ public class DataSource {
         mInProgress = new ArrayList<Delivery>();
         mDeliveries = new ArrayList<Delivery>();
         for (int i = 1; i < 11; i++) {
-            Delivery d = new Delivery(i + "", i);
-            d.Wage = i;
+            Delivery d = new Delivery(i + "");
             mDeliveries.add(d);
         }
 
         for (int i = 1; i < 6; i++) {
-            Delivery d = new Delivery(11 + i + "", i);
+            Delivery d = new Delivery(11 + i + "");
             mInProgress.add(d);
         }
     }

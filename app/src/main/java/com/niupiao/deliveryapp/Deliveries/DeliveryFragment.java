@@ -20,7 +20,6 @@ public class DeliveryFragment extends Fragment {
 
     public static final String EXTRA_DELIVERY_ID = "Delivery ID";
 
-    private TextView mTitleTextView;
     private Delivery mDelivery;
 
     public static DeliveryFragment newInstance(UUID id) {
@@ -44,6 +43,17 @@ public class DeliveryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_delivery, parent, false);
+        TextView puDist = (TextView) v.findViewById(R.id.pickup_distance);
+        TextView puAddress = (TextView) v.findViewById(R.id.pickup_address);
+        TextView puTime = (TextView) v.findViewById(R.id.pickup_time);
+        TextView puName = (TextView) v.findViewById(R.id.pickup_name);
+        TextView puPhone = (TextView) v.findViewById(R.id.pickup_phone);
+
+        TextView doDist = (TextView) v.findViewById(R.id.dropoff_distance);
+        TextView doAddress = (TextView) v.findViewById(R.id.dropoff_address);
+        TextView doTime = (TextView) v.findViewById(R.id.dropoff_time);
+        TextView doName = (TextView) v.findViewById(R.id.dropoff_name);
+        TextView doPhone = (TextView) v.findViewById(R.id.dropoff_phone);
 
         return v;
     }

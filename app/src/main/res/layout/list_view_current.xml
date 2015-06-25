@@ -18,6 +18,7 @@
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/list_item_indicator_line"
         android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content">
 
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/list_item_time"
+                android:id="@+id/pickup_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
@@ -70,7 +71,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/list_item_pickup_address"
+                android:id="@+id/pickup_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
@@ -102,13 +103,14 @@
                 android:layout_height="wrap_content"/>
 
             <CheckBox
-                android:id="@+id/list_item_checkbox"
+                android:id="@+id/pickup_checkbox"
                 android:focusable="false"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:textColor="#CC000000"/>
+                android:textColor="#CC000000"
+                android:checked="false"/>
 
         </LinearLayout>
 
@@ -120,8 +122,9 @@
 
     <View
         android:id="@+id/dividerView"
-        android:layout_marginLeft="15dp"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@id/topll"
@@ -130,6 +133,8 @@
     <LinearLayout
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/list_item_indicator_line"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:layout_below="@id/dividerView"
         android:layout_width="fill_parent"
         android:layout_height="70dp">
@@ -150,7 +155,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/list_item_dropoff_time"
+                android:id="@+id/dropoff_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
@@ -182,7 +187,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/list_item_dropoff_address"
+                android:id="@+id/dropoff_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
@@ -206,7 +211,7 @@
             android:layout_weight=".8">
 
             <TextView
-                android:text="Bounty:"
+                android:text="Wage:"
                 android:layout_marginTop="-2dp"
                 android:gravity="center"
                 android:textSize="12sp"
@@ -214,7 +219,7 @@
                 android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/list_item_bounty"
+                android:id="@+id/dropoff_wage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"

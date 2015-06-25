@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
@@ -76,6 +77,29 @@ public class InProgressFragment extends ListFragment {
             }
 
             Delivery d = getItem(position);
+
+            TextView puWage = (TextView) convertView.findViewById(R.id.dropoff_wage);
+            puWage.setText("$" + d.getWage());
+
+            TextView puAddress = (TextView) convertView.findViewById(R.id.pickup_address);
+            puAddress.setText(d.getPickupAddress());
+
+            TextView puTime = (TextView) convertView.findViewById(R.id.pickup_time);
+            puTime.setText(d.getPickupTime() + " - " + (d.getPickupTime() + 3) + " AM");
+
+            TextView puName = (TextView) convertView.findViewById(R.id.pickup_name);
+            TextView puPhone = (TextView) convertView.findViewById(R.id.pickup_phone);
+
+            TextView doDist = (TextView) convertView.findViewById(R.id.dropoff_distance);
+            TextView doAddress = (TextView) convertView.findViewById(R.id.dropoff_address);
+            doAddress.setText(d.getDropoffAddress());
+
+            TextView doTime = (TextView) convertView.findViewById(R.id.dropoff_time);
+            doTime.setText(d.getDropoffTime() + " - " + (d.getDropoffTime() + 3) + " PM");
+
+            TextView doName = (TextView) convertView.findViewById(R.id.dropoff_name);
+            TextView doPhone = (TextView) convertView.findViewById(R.id.dropoff_phone);
+
             // initialize list item view
 
             return convertView;
