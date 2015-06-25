@@ -8,17 +8,20 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
     <item
-        android:id="@+id/action_search"
-        android:orderInCategory="200"
-        android:title="Search"
-        android:icon="@drawable/abc_ic_go_search_api_mtrl_alpha"
-        app:showAsAction="ifRoom"
-        ></item>
-    <item
-        android:id="@+id/action_user"
-        android:orderInCategory="300"
-        android:title="User"
-        android:icon="@drawable/abc_ic_menu_copy_mtrl_am_alpha"
-        app:showAsAction="ifRoom"></item>
+        android:id="@+id/testid"
+        android:title="Sort  "
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/menu_sort_distance"
+                android:title="Sort by Distance"/>
+            <item
+                android:id="@+id/menu_sort_time"
+                android:title="Sort by Time"/>
+            <item
+                android:id="@+id/menu_sort_wage"
+                android:title="Sort by Wage"/>
+        </menu>
+    </item>
 
 </menu>
