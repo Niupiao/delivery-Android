@@ -18,6 +18,7 @@ import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
+import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 
 import java.util.ArrayList;
 
@@ -33,11 +34,14 @@ public class ListingsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
         curList = mDeliveries;
 
         DeliveryAdapter adapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(adapter);
+
+        ((MainTabActivity) getActivity()).setCurrentList(adapter, mDeliveries);
     }
 
     @Override
@@ -109,6 +113,7 @@ public class ListingsFragment extends ListFragment {
             TextView bounty = (TextView) convertView.findViewById(R.id.list_item_bounty);
             bounty.setText("$" + d.getWage());
 
+
             View statusColorView = convertView.findViewById(R.id.priority_indicator);
             switch (d.getDeliveryStatus()) {
                 case Delivery.READY_FOR_PICKUP:
@@ -125,4 +130,48 @@ public class ListingsFragment extends ListFragment {
             return convertView;
         }
     }
+
+    /*
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        MenuItem spinner = menu.findItem(R.id.sort_spinner);
+        Spinner sortSpinner = (Spinner)MenuItemCompat.getActionView(spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(), R.array.sort_items,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sortSpinner.setAdapter(adapter);
+        sortSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        // Sort by distance
+                        break;
+                    case 1:
+                        // Sort by time
+                        break;
+                    case 2:
+                        Collections.sort(mDeliveries, new Comparator<Delivery>() {
+                            public int compare(Delivery d1, Delivery d2) {
+                                if (d1.getWage() < d2.getWage())
+                                    return 1;
+                                if (d1.getWage() > d2.getWage())
+                                    return -1;
+                                else
+                                    return 0;
+                            }
+                        });
+
+                        ((DeliveryAdapter)getListAdapter()).notifyDataSetChanged();
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return true;
+    }
+    */
 }

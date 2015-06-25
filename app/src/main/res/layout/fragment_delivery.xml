@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#e5e4e0"
-              android:gravity="center_horizontal"
-              android:orientation="horizontal"
-              android:padding="10dp">
+                android:background="#123456"
+                android:padding="0dp">
+
+    <RelativeLayout
+        android:id="@+id/button_view"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/claim_button"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="16dp"
+            android:padding="5dp"
+            android:text="Claim!"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
 
     <LinearLayout
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/button_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="fill_parent">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingRight="8dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="16sp"
-            android:paddingBottom="16sp">
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
+            android:paddingTop="16sp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -36,202 +56,141 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/darker_gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Distance away:"
                     android:textColor="#80000000"/>
 
                 <TextView
                     android:id="@+id/pickup_distance"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
                     android:text="20 mi"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Address:"
                     android:textColor="#80000000"/>
 
                 <TextView
                     android:id="@+id/pickup_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
                     android:text="1234 Sample St"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Pickup Time:"
                     android:textColor="#80000000"/>
 
                 <TextView
                     android:id="@+id/pickup_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
                     android:text="2 - 4 PM"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Name:"
                     android:textColor="#80000000"/>
 
                 <TextView
                     android:id="@+id/pickup_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
                     android:text="Mrs. Sample Person"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Phone:"
                     android:textColor="#80000000"/>
 
                 <TextView
                     android:id="@+id/pickup_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
                     android:text="123-456-7890"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="16dp"
-            android:layout_height="match_parent"
-            android:background="@android:color/white"
-            android:gravity="center">
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:layout_marginTop="16dp"
-                android:background="@android:color/darker_gray"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@android:color/white"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingRight="16dp"
-            android:paddingLeft="10dp"
-            android:paddingTop="16sp"
-            android:paddingBottom="16sp">
+            android:paddingRight="24dp"
+            android:paddingLeft="24dp"
+            android:paddingTop="16sp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -246,170 +205,126 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="10dp"
                 android:background="@android:color/darker_gray"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
-                    android:text="Distance from Pickup:"
+                    android:text="Distance from:"
                     android:textColor="#80000000"/>
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
-                    android:text="5 mi"
+                    android:id="@+id/dropoff_distance"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="20 mi"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Address:"
                     android:textColor="#80000000"/>
 
                 <TextView
-                    android:id="@+id/drop_off_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
-                    android:text="4321 Sample Road"
+                    android:id="@+id/dropoff_address"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="1234 Sample St"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
-                    android:text="Drop Off Time:"
+                    android:text="Dropoff Time:"
                     android:textColor="#80000000"/>
 
                 <TextView
-                    android:id="@+id/drop_off_time"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
-                    android:text="9 - 12 AM"
+                    android:id="@+id/dropoff_time"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="4 - 7 PM"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Name:"
                     android:textColor="#80000000"/>
 
                 <TextView
-                    android:id="@+id/drop_off_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
-                    android:text="Mr. Sample Person"
+                    android:id="@+id/dropoff_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="Mrs. Sample Person"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="15dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="160dp"
+                    android:layout_height="match_parent"
                     android:gravity="left"
                     android:text="Phone:"
                     android:textColor="#80000000"/>
 
                 <TextView
                     android:id="@+id/dropoff_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="2"
-                    android:gravity="center_horizontal"
-                    android:paddingTop="10dp"
-                    android:text="098-765-4321"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="left"
+                    android:text="123-456-7890"
                     android:textColor="#CC000000"
                     android:textSize="15sp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@android:color/darker_gray"/>
 
             </LinearLayout>
 
@@ -417,4 +332,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
