@@ -7,10 +7,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.github.clans.fab.FloatingActionMenu;
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
@@ -26,6 +28,7 @@ public class ListingsFragment extends ListFragment {
 
     private ArrayList<Delivery> mDeliveries;
     public ArrayList<Delivery> curList;
+    int mLastFirstVisibleItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,32 @@ public class ListingsFragment extends ListFragment {
                 // Fetch new data here
                 ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
+            }
+        });
+
+        final FloatingActionMenu sortMenu = (FloatingActionMenu) getActivity().findViewById(R.id.menu_sort);
+        final ListView lv = (ListView) v.findViewById(android.R.id.list);
+        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                final int currentFirstVisibleItem = lv.getFirstVisiblePosition();
+
+                if (currentFirstVisibleItem > mLastFirstVisibleItem) {
+                    // Scrolling down
+                    //sortMenu.animate().cancel();
+                    //sortMenu.animate().translationYBy(350);
+                } else if (currentFirstVisibleItem < mLastFirstVisibleItem) {
+                    // Scrolling up
+                    //sortMenu.animate().cancel();
+                    //sortMenu.animate().translationYBy(-350);
+                }
+
+                mLastFirstVisibleItem = currentFirstVisibleItem;
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
 
@@ -78,7 +107,7 @@ public class ListingsFragment extends ListFragment {
 
             Delivery d = getItem(position);
             TextView bounty = (TextView) convertView.findViewById(R.id.list_item_bounty);
-            bounty.setText("$" + d.getBounty());
+            bounty.setText("$" + d.getWage());
 
             View statusColorView = convertView.findViewById(R.id.priority_indicator);
             switch (d.getDeliveryStatus()) {

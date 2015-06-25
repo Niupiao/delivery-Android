@@ -14,7 +14,7 @@ public class Delivery {
 
     public UUID mId;
     public String mName;
-    public int mBounty;
+    public int Wage;
 
     public String mPickupName;
     public String mPickupAddress;
@@ -30,7 +30,7 @@ public class Delivery {
     public Delivery(String name, int bounty) {
         mId = UUID.randomUUID();
         mName = "Delivery " + name;
-        mBounty = bounty;
+        Wage = bounty;
         mPickupAddress = "Street Name";
         mDeliveryStatus = bounty % 3;
         /*
@@ -62,12 +62,12 @@ public class Delivery {
         mName = name;
     }
 
-    public int getBounty() {
-        return mBounty;
+    public int getWage() {
+        return Wage;
     }
 
-    public void setBounty(int bounty) {
-        mBounty = bounty;
+    public void setWage(int wage) {
+        Wage = wage;
     }
 
     public String getPickupName() {

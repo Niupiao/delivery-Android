@@ -94,9 +94,9 @@ public class MainTabActivity extends ActionBarActivity {
             public void onClick(View v) {
                 Collections.sort(mCurrentList, new Comparator<Delivery>() {
                     public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getBounty() < d2.getBounty())
+                        if (d1.getWage() < d2.getWage())
                             return 1;
-                        if (d1.getBounty() > d2.getBounty())
+                        if (d1.getWage() > d2.getWage())
                             return -1;
                         else
                             return 0;

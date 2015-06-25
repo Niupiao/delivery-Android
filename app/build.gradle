@@ -26,4 +26,5 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'com.android.support:support-annotations:21.0.3'
     compile 'com.github.clans:fab:1.5.2'
+    compile files('libs/volley.jar')
 }

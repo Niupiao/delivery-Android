@@ -21,7 +21,7 @@ public class DataSource {
         mDeliveries = new ArrayList<Delivery>();
         for (int i = 1; i < 11; i++) {
             Delivery d = new Delivery(i + "", i);
-            d.mBounty = i;
+            d.Wage = i;
             mDeliveries.add(d);
         }
 

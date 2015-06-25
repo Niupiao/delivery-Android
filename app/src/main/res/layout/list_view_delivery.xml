@@ -20,7 +20,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="70dp"
         android:layout_weight="1">
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="5dp"
             android:gravity="center_horizontal"
-            android:text="6 miles"
+            android:text="3.6 km"
             android:textColor="#CC000000"/>
 
     </LinearLayout>
@@ -52,7 +52,7 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <TextView
@@ -85,11 +85,11 @@
         android:gravity="center"
         android:layout_marginRight="3dp"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <TextView
-            android:text="Bounty:"
+            android:text="Wage:"
             android:layout_marginTop="-2dp"
             android:gravity="center"
             android:textSize="12sp"
