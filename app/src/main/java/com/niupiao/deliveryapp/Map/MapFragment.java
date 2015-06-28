@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -22,6 +21,11 @@ import com.niupiao.deliveryapp.R;
 public class MapFragment extends android.support.v4.app.Fragment {
     MapView mMapView;
     private GoogleMap googleMap;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,8 +47,7 @@ public class MapFragment extends android.support.v4.app.Fragment {
         googleMap = mMapView.getMap();
         // latitude and longitude
         double latitude = 47.9200;
-        double longitude = 106.9200
-                ;
+        double longitude = 106.9200;
 
         // create marker
         MarkerOptions marker = new MarkerOptions().position(
