@@ -6,3 +6,6 @@
 *~
 .idea/
 build/
+.idea/misc.xml
+app/app.iml
+delivery-Android.iml
