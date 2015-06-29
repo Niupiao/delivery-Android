@@ -29,6 +29,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/button_view"

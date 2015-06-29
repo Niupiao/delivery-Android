@@ -1,5 +1,7 @@
 package com.niupiao.deliveryapp.Deliveries;
 
+import org.json.JSONObject;
+
 import java.util.Random;
 import java.util.UUID;
 
@@ -16,6 +18,7 @@ public class Delivery {
     public String mName;
     public int mWage;
     public int mDistance;
+    public boolean claimed;
 
     public String mPickupName;
     public String mPickupAddress;
@@ -48,9 +51,35 @@ public class Delivery {
 
     }
 
+    public Delivery(JSONObject json) {
+        mId = UUID.randomUUID();
+
+        mName = "Delivery";
+        mWage = new Random().nextInt(5) + 1;
+        mPickupAddress = "" + mDropoffTime + mPickupTime + " Hollybrook St";
+        mDeliveryStatus = READY_FOR_PICKUP;
+        mDistance = new Random().nextInt(11) + 1;
+
+        //mPickupName;
+        mPickupTime = new Random().nextInt(4) + 4;
+        //mPickupPhone;
+
+        //mDropoffName;
+        mDropoffAddress = "" + mWage + mDropoffTime + " Jenkins Rd";
+        mDropoffTime = new Random().nextInt(7) + 1;
+        //mDropoffPhone;
+    }
+
     @Override
     public String toString() {
         return mName;
+    }
+
+    public boolean equals(Delivery next) {
+        if (this.getId().equals(next.getId()))
+            return true;
+
+        return false;
     }
 
     public void setId(UUID id) {
@@ -148,4 +177,13 @@ public class Delivery {
     public UUID getId() {
         return mId;
     }
+
+    public boolean isClaimed() {
+        return claimed;
+    }
+
+    public void setClaimed(boolean claimed) {
+        this.claimed = claimed;
+    }
+
 }

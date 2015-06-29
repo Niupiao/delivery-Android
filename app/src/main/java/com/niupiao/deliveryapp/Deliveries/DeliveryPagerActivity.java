@@ -33,7 +33,7 @@ public class DeliveryPagerActivity extends ActionBarActivity {
             @Override
             public Fragment getItem(int position) {
                 Delivery d = mDeliveries.get(position);
-                return DeliveryFragment.newInstance(d.getId());
+                return DeliveryFragment.newInstance(getIntent().getExtras());
             }
 
             @Override
@@ -80,4 +80,9 @@ public class DeliveryPagerActivity extends ActionBarActivity {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        finish();
+    }
 }

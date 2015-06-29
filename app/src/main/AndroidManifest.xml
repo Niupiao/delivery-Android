@@ -36,8 +36,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SlidingTab.MainTabActivity">
-
+        <activity
+            android:name=".SlidingTab.MainTabActivity"
+            android:launchMode="singleTop">
         </activity>
         <activity
             android:name=".Deliveries.DeliveryPagerActivity"

@@ -1,5 +1,6 @@
 package com.niupiao.deliveryapp.SlidingTab;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
@@ -28,7 +29,7 @@ public class MainTabActivity extends ActionBarActivity {
     ViewPagerAdapter mAdapter;
     PagerSlidingTabStrip tabs;
     CharSequence titles[] = {"Listings", "Current", "Map"};
-    int numTabs = 3;
+    final int numTabs = 3;
     ArrayList<Delivery> mCurrentList;
     ArrayAdapter<Delivery> mCurAdapter;
     ListFragment curFragment;
@@ -45,6 +46,7 @@ public class MainTabActivity extends ActionBarActivity {
 
         mViewPager = (ViewPager) findViewById(R.id.delivery_list_viewPager);
         mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(3);
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setIndicatorColor(getResources().getColor(R.color.ColorPrimaryDark));
@@ -72,9 +74,11 @@ public class MainTabActivity extends ActionBarActivity {
                     if (position == 0) {
                         mCurrentList = ((ListingsFragment) curFragment).mDeliveries;
                         mCurAdapter = ((ListingsFragment) curFragment).mAdapter;
+                        mCurAdapter.notifyDataSetChanged();
                     } else {
                         mCurrentList = ((InProgressFragment) curFragment).mInProgress;
                         mCurAdapter = ((InProgressFragment) curFragment).mAdapter;
+                        mCurAdapter.notifyDataSetChanged();
                     }
                     //sortMenu.showMenuButton(true);
                 }
@@ -85,48 +89,23 @@ public class MainTabActivity extends ActionBarActivity {
 
             }
         });
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            mViewPager.setCurrentItem(1);
+        }
         /*
-        final FloatingActionMenu sortMenu = (FloatingActionMenu) findViewById(R.id.menu_sort);
-        sortMenu.setClosedOnTouchOutside(true);
-
-        final FloatingActionButton bountySort = (FloatingActionButton) findViewById(R.id.menu_item_sort_bounty);
-        bountySort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Collections.sort(mCurrentList, new Comparator<Delivery>() {
-                    public int compare(Delivery d1, Delivery d2) {
-                        if (d1.getWage() < d2.getWage())
-                            return 1;
-                        if (d1.getWage() > d2.getWage())
-                            return -1;
-                        else
-                            return 0;
-                    }
-                });
-
-                mCurAdapter.notifyDataSetChanged();
-                sortMenu.close(true);
+        if (requestCode == ListingsFragment.DELIVERY_DETAILS) {
+            if (resultCode == RESULT_OK) {
+                mViewPager.setCurrentItem(1);
             }
-        });
-
-        final FloatingActionButton timeSort = (FloatingActionButton) findViewById(R.id.menu_item_sort_time);
-        timeSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                sortMenu.close(true);
+        } else if (requestCode == InProgressFragment.PROGRESS_DELIVERY) {
+            if (resultCode == RESULT_OK) {
+                mViewPager.setCurrentItem(1);
             }
-        });
-
-        final FloatingActionButton distanceSort = (FloatingActionButton) findViewById(R.id.menu_item_sort_distance);
-        distanceSort.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                sortMenu.close(true);
-            }
-        });
+        }
         */
     }
 
@@ -193,5 +172,49 @@ public class MainTabActivity extends ActionBarActivity {
         this.mCurAdapter = curAdapter;
         this.mCurrentList = curList;
     }
-
 }
+
+/*
+in oncreate()
+
+        final FloatingActionMenu sortMenu = (FloatingActionMenu) findViewById(R.id.menu_sort);
+        sortMenu.setClosedOnTouchOutside(true);
+
+        final FloatingActionButton bountySort = (FloatingActionButton) findViewById(R.id.menu_item_sort_bounty);
+        bountySort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Collections.sort(mCurrentList, new Comparator<Delivery>() {
+                    public int compare(Delivery d1, Delivery d2) {
+                        if (d1.getWage() < d2.getWage())
+                            return 1;
+                        if (d1.getWage() > d2.getWage())
+                            return -1;
+                        else
+                            return 0;
+                    }
+                });
+
+                mCurAdapter.notifyDataSetChanged();
+                sortMenu.close(true);
+            }
+        });
+
+        final FloatingActionButton timeSort = (FloatingActionButton) findViewById(R.id.menu_item_sort_time);
+        timeSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sortMenu.close(true);
+            }
+        });
+
+        final FloatingActionButton distanceSort = (FloatingActionButton) findViewById(R.id.menu_item_sort_distance);
+        distanceSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                sortMenu.close(true);
+            }
+        });
+        */

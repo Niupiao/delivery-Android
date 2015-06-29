@@ -1,5 +1,6 @@
 package com.niupiao.deliveryapp.Deliveries;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
@@ -7,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.niupiao.deliveryapp.R;
@@ -19,15 +22,13 @@ import java.util.UUID;
 public class DeliveryFragment extends Fragment {
 
     public static final String EXTRA_DELIVERY_ID = "Delivery ID";
+    public static final String EXTRA_PARENT = "The Fragment that called me";
 
     private Delivery mDelivery;
 
-    public static DeliveryFragment newInstance(UUID id) {
-        Bundle args = new Bundle();
-        args.putSerializable(EXTRA_DELIVERY_ID, id);
-
+    public static DeliveryFragment newInstance(Bundle extras) {
         DeliveryFragment frag = new DeliveryFragment();
-        frag.setArguments(args);
+        frag.setArguments(extras);
         return frag;
     }
 
@@ -43,6 +44,23 @@ public class DeliveryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_delivery, parent, false);
+
+        if (mDelivery.isClaimed()) {
+            RelativeLayout buttonParentView = (RelativeLayout) v.findViewById(R.id.button_view);
+            buttonParentView.setVisibility(View.INVISIBLE);
+        } else {
+            Button claimButton = (Button) v.findViewById(R.id.claim_button);
+            claimButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DataSource.get(getActivity()).claimDelivery(mDelivery);
+
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                }
+            });
+        }
+
         TextView puDist = (TextView) v.findViewById(R.id.pickup_distance);
         TextView puAddress = (TextView) v.findViewById(R.id.pickup_address);
         TextView puTime = (TextView) v.findViewById(R.id.pickup_time);

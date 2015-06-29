@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
+import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
@@ -36,52 +35,36 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final Intent intent = new Intent(this, MainTabActivity.class);
-
         mIdField = (EditText) findViewById(R.id.username_et);
-        mPasswordField = (EditText) findViewById(R.id.password_et);
-
         mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=JSON";
-                url = url + "&key=" + mIdField.getText();
-                Log.d("URL", url);
+                String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=json&key=";
+                url += mIdField.getText();
                 // Formulate the request and handle the response.
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                        intent.putExtra("KEY", mIdField.getText());
-                        startActivity(intent);
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    });
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, "https://niupiaomarket.herokuapp.com",
-                        new Response.Listener<String>() {
+                        new Response.Listener<JSONObject>() {
                             @Override
-                            public void onResponse(String response) {
-                                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                            public void onResponse(JSONObject response) {
+                                DataSource ds = DataSource.get(getApplicationContext());
+                                ds.createLists(response);
+
+                                Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
+                                intent.putExtra(DataSource.USER_KEY, mIdField.getText());
+                                startActivity(intent);
                             }
                         },
-                        new Response.ErrorListener(){
+                        new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(getApplicationContext(),error.getCause().toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                             }
                         });
                 VolleySingleton.getInstance(context).addToRequestQueue(jsonRequest);
-                //VolleySingleton.getInstance(context).addToRequestQueue(stringRequest);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

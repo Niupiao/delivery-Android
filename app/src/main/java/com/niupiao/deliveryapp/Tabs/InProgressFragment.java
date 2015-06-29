@@ -16,6 +16,7 @@ import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
+import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import java.util.ArrayList;
  * Created by Inanity on 6/22/2015.
  */
 public class InProgressFragment extends ListFragment {
+    public static final int PROGRESS_DELIVERY = 240;
 
     public ArrayList<Delivery> mInProgress;
     public DeliveryAdapter mAdapter;
@@ -35,6 +37,8 @@ public class InProgressFragment extends ListFragment {
 
         mAdapter = new DeliveryAdapter(mInProgress);
         setListAdapter(mAdapter);
+
+        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mInProgress);
     }
 
     @Override
@@ -60,7 +64,7 @@ public class InProgressFragment extends ListFragment {
 
         Intent i = new Intent(getActivity(), DeliveryPagerActivity.class);
         i.putExtra(DeliveryFragment.EXTRA_DELIVERY_ID, d.getId());
-        startActivity(i);
+        getActivity().startActivityForResult(i, PROGRESS_DELIVERY);
     }
 
     private class DeliveryAdapter extends ArrayAdapter<Delivery> {

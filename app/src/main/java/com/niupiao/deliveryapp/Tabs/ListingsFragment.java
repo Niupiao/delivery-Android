@@ -24,6 +24,8 @@ import java.util.ArrayList;
  * Created by Inanity on 6/22/2015.
  */
 public class ListingsFragment extends ListFragment {
+    public static final int DELIVERY_DETAILS = 120;
+
 
     public ArrayList<Delivery> mDeliveries;
     public DeliveryAdapter mAdapter;
@@ -49,6 +51,7 @@ public class ListingsFragment extends ListFragment {
             @Override
             public void onRefresh() {
                 // Fetch new data here
+
                 ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
                 swipeLayout.setRefreshing(false);
             }
@@ -63,7 +66,7 @@ public class ListingsFragment extends ListFragment {
 
         Intent i = new Intent(getActivity(), DeliveryPagerActivity.class);
         i.putExtra(DeliveryFragment.EXTRA_DELIVERY_ID, d.getId());
-        startActivity(i);
+        getActivity().startActivityForResult(i, DELIVERY_DETAILS);
     }
 
     public class DeliveryAdapter extends ArrayAdapter<Delivery> {
