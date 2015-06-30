@@ -72,7 +72,7 @@ public class LoginActivity extends ActionBarActivity {
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         if (settings.getBoolean("rememberLogin", false)) {
             mIdField.setText(settings.getString("login", ""));
-            mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", true));
+            mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", false));
             mLoginButton.callOnClick();
         }
 
