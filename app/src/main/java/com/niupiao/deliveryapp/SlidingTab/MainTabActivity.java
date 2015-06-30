@@ -2,15 +2,17 @@ package com.niupiao.deliveryapp.SlidingTab;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
+import com.niupiao.deliveryapp.Map.MapFragment;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.Tabs.InProgressFragment;
 import com.niupiao.deliveryapp.Tabs.ListingsFragment;
@@ -31,7 +33,7 @@ public class MainTabActivity extends ActionBarActivity {
     final int numTabs = 3;
     ArrayList<Delivery> mCurrentList;
     ArrayAdapter<Delivery> mCurAdapter;
-    ListFragment curFragment;
+    Fragment curFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,10 +50,10 @@ public class MainTabActivity extends ActionBarActivity {
         mViewPager.setOffscreenPageLimit(3);
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setIndicatorColor(getResources().getColor(R.color.ColorPrimaryDark));
+        tabs.setIndicatorColor(getResources().getColor(R.color.ColorPrimarySlightlyDark));
         tabs.setShouldExpand(true);
         tabs.setUnderlineHeight(1);
-        tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimaryDark));
+        tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimarySlightlyDark));
         tabs.setTextColor(getResources().getColor(android.R.color.white));
         tabs.setDividerColor(getResources().getColor(R.color.material_blue_grey_800));
 
@@ -65,21 +67,17 @@ public class MainTabActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
+                curFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:"
+                        + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
                 if (position == 2) {
-                    //sortMenu.hideMenuButton(true);
+                    getSupportActionBar().hide();
                 } else {
-                    curFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"
-                            + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
+                    getSupportActionBar().show();
                     if (position == 0) {
-                        mCurrentList = ((ListingsFragment) curFragment).mDeliveries;
-                        mCurAdapter = ((ListingsFragment) curFragment).mAdapter;
-                        mCurAdapter.notifyDataSetChanged();
-                    } else {
-                        mCurrentList = ((InProgressFragment) curFragment).mInProgress;
-                        mCurAdapter = ((InProgressFragment) curFragment).mAdapter;
-                        mCurAdapter.notifyDataSetChanged();
+                        ((ListingsFragment) curFragment).updateListings(false);
+                    } else if (position == 1) {
+
                     }
-                    //sortMenu.showMenuButton(true);
                 }
             }
 
@@ -92,20 +90,16 @@ public class MainTabActivity extends ActionBarActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            mViewPager.setCurrentItem(1);
-        }
-        /*
         if (requestCode == ListingsFragment.DELIVERY_DETAILS) {
             if (resultCode == RESULT_OK) {
                 mViewPager.setCurrentItem(1);
+                ((InProgressFragment) curFragment).updateMyDeliveries(false);
             }
         } else if (requestCode == InProgressFragment.PROGRESS_DELIVERY) {
             if (resultCode == RESULT_OK) {
                 mViewPager.setCurrentItem(1);
             }
         }
-        */
     }
 
     @Override

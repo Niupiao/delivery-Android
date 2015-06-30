@@ -11,8 +11,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.niupiao.deliveryapp.R;
+import com.niupiao.deliveryapp.VolleySingleton;
+
+import org.json.JSONObject;
 
 import java.util.UUID;
 
@@ -22,7 +30,6 @@ import java.util.UUID;
 public class DeliveryFragment extends Fragment {
 
     public static final String EXTRA_DELIVERY_ID = "Delivery ID";
-    public static final String EXTRA_PARENT = "The Fragment that called me";
 
     private Delivery mDelivery;
 
@@ -53,7 +60,7 @@ public class DeliveryFragment extends Fragment {
             claimButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DataSource.get(getActivity()).claimDelivery(mDelivery);
+                    updateClaimed(mDelivery);
 
                     getActivity().setResult(Activity.RESULT_OK);
                     getActivity().finish();
@@ -86,5 +93,26 @@ public class DeliveryFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void updateClaimed(Delivery d) {
+        String url = "https://niupiaomarket.herokuapp.com/delivery/claim?format=json&key=" + DataSource.USER_KEY;
+        url = url + "&delivery_id=" + d.getItemID();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(getActivity(), "Claimed!", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        //request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }
 }

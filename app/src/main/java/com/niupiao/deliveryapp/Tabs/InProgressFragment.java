@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -20,7 +21,9 @@ import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
+import com.niupiao.deliveryapp.Map.MapFragment;
 import com.niupiao.deliveryapp.R;
+import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
 
 import org.json.JSONArray;
@@ -56,14 +59,16 @@ public class InProgressFragment extends ListFragment {
             @Override
             public void onRefresh() {
                 // Fetch new data here
-                updateMyDeliveries();
+                updateMyDeliveries(true);
             }
         });
 
-        updateMyDeliveries();
+        updateMyDeliveries(false);
 
         return v;
     }
+
+    // TODO: load markers after first data
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -122,9 +127,10 @@ public class InProgressFragment extends ListFragment {
         mAdapter = new DeliveryAdapter(mInProgress);
         setListAdapter(mAdapter);
         ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mInProgress);
     }
 
-    public void updateMyDeliveries() {
+    public void updateMyDeliveries(final boolean swiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/claimed?format=json&key=" + DataSource.USER_KEY;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
@@ -143,7 +149,9 @@ public class InProgressFragment extends ListFragment {
 
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_in_progress)).setRefreshing(false);
-                Toast.makeText(getActivity(), "Updated my deliveries", Toast.LENGTH_SHORT).show();
+                if (swiped)
+                    Toast.makeText(getActivity(), "Updated my deliveries", Toast.LENGTH_SHORT).show();
+                ((MapFragment) getActivity().getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.delivery_list_viewPager + ":2")).updateMarkers();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -153,6 +161,7 @@ public class InProgressFragment extends ListFragment {
             }
         });
 
+        request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }
 }

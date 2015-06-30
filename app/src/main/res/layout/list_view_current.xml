@@ -89,14 +89,13 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:gravity="center"
+            android:gravity="center|bottom"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".8">
 
             <TextView
                 android:text="Picked Up?"
-                android:layout_marginTop="-2dp"
                 android:gravity="center"
                 android:textSize="12sp"
                 android:layout_width="match_parent"
@@ -104,13 +103,10 @@
 
             <CheckBox
                 android:id="@+id/pickup_checkbox"
+                android:layout_marginLeft="10dp"
                 android:focusable="false"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:textColor="#CC000000"
-                android:checked="false"/>
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
 
         </LinearLayout>
 

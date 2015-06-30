@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -20,6 +21,7 @@ import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
+import com.niupiao.deliveryapp.Map.MapFragment;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
@@ -36,7 +38,6 @@ import java.util.ArrayList;
 public class ListingsFragment extends ListFragment {
     public static final int DELIVERY_DETAILS = 120;
 
-
     public ArrayList<Delivery> mDeliveries;
     public DeliveryAdapter mAdapter;
 
@@ -47,7 +48,6 @@ public class ListingsFragment extends ListFragment {
 
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
         updateArray();
-        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mDeliveries);
     }
 
     @Override
@@ -58,11 +58,11 @@ public class ListingsFragment extends ListFragment {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateListings();
+                updateListings(true);
+                Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
             }
         });
-        swipeLayout.setRefreshing(true);
-        updateListings();
+        updateListings(false);
 
         return v;
     }
@@ -120,9 +120,10 @@ public class ListingsFragment extends ListFragment {
         mAdapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(mAdapter);
         ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mDeliveries);
     }
 
-    public void updateListings() {
+    public void updateListings(boolean isSwiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/index?format=json&key=" + DataSource.USER_KEY;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
@@ -140,7 +141,6 @@ public class ListingsFragment extends ListFragment {
 
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.refresh_listings_view)).setRefreshing(false);
-                Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
             }
 
         }, new Response.ErrorListener() {
@@ -151,6 +151,7 @@ public class ListingsFragment extends ListFragment {
             }
         });
 
+        request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }
 }
