@@ -58,6 +58,7 @@ public class ListingsFragment extends ListFragment {
             @Override
             public void onRefresh() {
                 updateListings(true);
+                Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
             }
         });
         swipeLayout.setRefreshing(true);
@@ -141,8 +142,6 @@ public class ListingsFragment extends ListFragment {
 
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.refresh_listings_view)).setRefreshing(false);
-                if (swiped)
-                    Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
             }
 
         }, new Response.ErrorListener() {
