@@ -1,14 +1,19 @@
 package com.niupiao.deliveryapp.Map;
 
+import android.content.Context;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,9 +35,13 @@ import java.util.Locale;
 /**
  * Created by Inanity on 6/22/2015.
  */
-public class MapFragment extends android.support.v4.app.Fragment {
-    MapView mMapView;
-    GoogleMap mMap;
+public class MapFragment extends android.support.v4.app.Fragment implements LocationListener {
+    private LocationManager mLocationManager;
+    private String mProvider;
+    private LatLng mCurLocation = new LatLng(47.92, 106.92);
+    private MapView mMapView;
+    private GoogleMap mMap;
+    private ArrayList<Delivery> mDeliveries;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +52,20 @@ public class MapFragment extends android.support.v4.app.Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // Get the location manager
+        mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        // Define the criteria how to select the location provider -> use
+        // default
+        Criteria criteria = new Criteria();
+        mProvider = mLocationManager.getBestProvider(criteria, false);
+        Location location = mLocationManager.getLastKnownLocation(mProvider);
+
+        // Initialize the location fields
+        if (location != null) {
+            System.out.println("Provider " + mProvider + " has been selected.");
+            onLocationChanged(location);
+        }
+
         // inflate and return the layout
         View v = inflater.inflate(R.layout.fragment_map_tab, container,
                 false);
@@ -59,7 +82,7 @@ public class MapFragment extends android.support.v4.app.Fragment {
 
         mMap = mMapView.getMap();
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(117.2, 32.7)).zoom(5).build();
+                .target(mCurLocation).zoom(12).build();
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
 
@@ -154,12 +177,14 @@ public class MapFragment extends android.support.v4.app.Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        mLocationManager.requestLocationUpdates(mProvider, 400, 1, this);
         mMapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        mLocationManager.removeUpdates(this);
         mMapView.onPause();
     }
 
@@ -173,5 +198,25 @@ public class MapFragment extends android.support.v4.app.Fragment {
     public void onLowMemory() {
         super.onLowMemory();
         mMapView.onLowMemory();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if(location != null)
+            mCurLocation = new LatLng(location.getLatitude(), location.getLongitude());
+        else
+            mCurLocation = new LatLng(47.92, 106.92);
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
     }
 }

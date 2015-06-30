@@ -2,12 +2,15 @@ package com.niupiao.deliveryapp.Login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -21,9 +24,13 @@ import com.niupiao.deliveryapp.VolleySingleton;
 
 import org.json.JSONObject;
 
+import java.util.prefs.Preferences;
+
 
 public class LoginActivity extends ActionBarActivity {
+    public static final String LOGIN_PREFS = "LOGIN_PREFS";
     private Button mLoginButton;
+    private CheckBox mRememberCheckBox;
     private EditText mIdField;
     private EditText mPasswordField;
     private final Context context= this;
@@ -62,6 +69,14 @@ public class LoginActivity extends ActionBarActivity {
                 VolleySingleton.getInstance(context).addToRequestQueue(jsonRequest);
             }
         });
+
+        mRememberCheckBox = (CheckBox)findViewById(R.id.remember_checkbox);
+
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        if(settings.getBoolean("rememberLogin", false)) {
+            mIdField.setText(settings.getString("login", ""));
+            mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", false));
+        }
     }
 
     private void end() {
@@ -88,5 +103,18 @@ public class LoginActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        SharedPreferences settings = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putBoolean("rememberLogin", mRememberCheckBox.isChecked());
+        if(mRememberCheckBox.isChecked()) {
+            editor.putString("login", mIdField.getText().toString());
+        }
+        // Commit the edits!
+        editor.commit();
     }
 }

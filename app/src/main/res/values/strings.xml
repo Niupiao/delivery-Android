@@ -10,4 +10,6 @@
         <item>Sort by Wage</item>
     </string-array>
 
+    <string name="login_remember">Remember Me</string>
+
 </resources>
