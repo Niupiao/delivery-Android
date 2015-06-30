@@ -5,12 +5,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
+import com.niupiao.deliveryapp.Map.MapFragment;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.Tabs.InProgressFragment;
 import com.niupiao.deliveryapp.Tabs.ListingsFragment;

@@ -30,14 +30,12 @@ import org.json.JSONObject;
 
 
 public class LoginActivity extends ActionBarActivity {
-    public static final String LOGIN_PREFS = "LOGIN_PREFS";
     private Button mLoginButton;
     private CheckBox mRememberCheckBox;
     private EditText mIdField;
     private LinearLayout ll;
     private View logo;
     private ProgressBar loader;
-    private EditText mPasswordField;
     private final Context context = this;
 
 

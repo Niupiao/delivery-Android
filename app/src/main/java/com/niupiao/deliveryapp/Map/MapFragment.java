@@ -95,6 +95,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements Loca
         });
 
         // Perform any camera updates here
+        updateMarkers();
         return v;
     }
 
@@ -161,12 +162,10 @@ public class MapFragment extends android.support.v4.app.Fragment implements Loca
             for (MarkerOptions m : markers) {
                 mMap.addMarker(m);
             }
-            Toast.makeText(getActivity(), "Updated!", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getActivity(), "Updating...", Toast.LENGTH_LONG).show();
         }
 
         @Override
