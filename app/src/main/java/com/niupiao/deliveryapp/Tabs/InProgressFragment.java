@@ -21,6 +21,7 @@ import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
+import com.niupiao.deliveryapp.Map.MapFragment;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
@@ -150,6 +151,7 @@ public class InProgressFragment extends ListFragment {
                 ((SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_in_progress)).setRefreshing(false);
                 if (swiped)
                     Toast.makeText(getActivity(), "Updated my deliveries", Toast.LENGTH_SHORT).show();
+                ((MapFragment) getActivity().getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.delivery_list_viewPager + ":2")).updateMarkers();
             }
         }, new Response.ErrorListener() {
             @Override
