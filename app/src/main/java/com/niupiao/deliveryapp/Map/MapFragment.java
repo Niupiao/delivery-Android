@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,7 +32,7 @@ import java.util.Locale;
 public class MapFragment extends android.support.v4.app.Fragment {
     MapView mMapView;
     private GoogleMap mMap;
-    private ArrayList<Delivery> mDeliveries;
+    private ArrayList<Delivery> mInProgress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,6 +45,15 @@ public class MapFragment extends android.support.v4.app.Fragment {
 
         mMapView.onResume();// needed to get the map to display immediately
 
+        Button refreshButton = (Button) v.findViewById(R.id.refresh_markers);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateMarkers();
+                Toast.makeText(getActivity(), "Updating...", Toast.LENGTH_LONG).show();
+            }
+        });
+
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -51,9 +62,9 @@ public class MapFragment extends android.support.v4.app.Fragment {
 
         mMap = mMapView.getMap();
 
-        mDeliveries = DataSource.get(getActivity().getApplicationContext()).getInProgress();
+        mInProgress = DataSource.get(getActivity().getApplicationContext()).getInProgress();
 
-        for (Delivery d : mDeliveries) {
+        for (Delivery d : mInProgress) {
             MarkerOptions pickupMarker = new MarkerOptions().position(
                     getLatLongFromAddress(d.getPickupAddress())).title(d.getPickupAddress() + " Pickup");
 
@@ -71,7 +82,7 @@ public class MapFragment extends android.support.v4.app.Fragment {
         }
 
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(0, 0)).zoom(12).build();
+                .target(new LatLng(117.2, 32.7)).zoom(5).build();
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
 
@@ -100,6 +111,29 @@ public class MapFragment extends android.support.v4.app.Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    public void updateMarkers() {
+        mMap = mMapView.getMap();
+
+        mInProgress = DataSource.get(getActivity().getApplicationContext()).getInProgress();
+
+        for (Delivery d : mInProgress) {
+            MarkerOptions pickupMarker = new MarkerOptions().position(
+                    getLatLongFromAddress(d.getPickupAddress())).title(d.getPickupAddress() + " Pickup");
+
+            MarkerOptions dropoffMarker = new MarkerOptions().position(
+                    getLatLongFromAddress(d.getDropoffAddress())).title(d.getDropoffAddress() + " Drop Off");
+
+            pickupMarker.icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+            dropoffMarker.icon(BitmapDescriptorFactory
+                    .defaultMarker(BitmapDescriptorFactory.HUE_RED));
+
+            mMap.addMarker(pickupMarker);
+            mMap.addMarker(dropoffMarker);
         }
     }
 

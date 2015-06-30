@@ -65,12 +65,12 @@ public class MainTabActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
+                curFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:"
+                        + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
                 if (position == 2) {
                     getSupportActionBar().hide();
                 } else {
                     getSupportActionBar().show();
-                    curFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:"
-                            + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
                     if (position == 0) {
                         ((ListingsFragment) curFragment).updateListings(false);
                     } else if (position == 1) {

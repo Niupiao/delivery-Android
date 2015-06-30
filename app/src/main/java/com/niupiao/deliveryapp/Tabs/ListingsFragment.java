@@ -61,7 +61,6 @@ public class ListingsFragment extends ListFragment {
                 Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
             }
         });
-        swipeLayout.setRefreshing(true);
         updateListings(false);
 
         return v;
