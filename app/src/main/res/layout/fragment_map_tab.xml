@@ -16,10 +16,10 @@
         android:text="Update"
         android:textSize="12sp"
         android:textColor="@android:color/white"
-        android:background="@drawable/round_button"
+        android:background="@drawable/round_button_selector"
         android:layout_width="62dp"
         android:layout_height="62dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="75dp"
         android:layout_gravity="bottom|right"/>
 </FrameLayout>

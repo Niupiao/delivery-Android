@@ -15,7 +15,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
@@ -41,8 +40,8 @@ public class LoginActivity extends ActionBarActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=json&key=";
-                DataSource.USER_KEY = mIdField.getText().toString();
+                String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=json&key=a";
+                //DataSource.USER_KEY = mIdField.getText().toString(); TODO: Fix this
                 url += mIdField.getText();
                 // Formulate the request and handle the response.
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,

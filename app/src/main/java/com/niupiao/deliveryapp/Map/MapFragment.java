@@ -2,6 +2,7 @@ package com.niupiao.deliveryapp.Map;
 
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,8 +32,7 @@ import java.util.Locale;
  */
 public class MapFragment extends android.support.v4.app.Fragment {
     MapView mMapView;
-    private GoogleMap mMap;
-    private ArrayList<Delivery> mInProgress;
+    GoogleMap mMap;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,15 +51,6 @@ public class MapFragment extends android.support.v4.app.Fragment {
 
         mMapView.onResume();// needed to get the map to display immediately
 
-        Button refreshButton = (Button) v.findViewById(R.id.refresh_markers);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Updating...", Toast.LENGTH_LONG).show();
-                updateMarkers();
-            }
-        });
-
         try {
             MapsInitializer.initialize(getActivity().getApplicationContext());
         } catch (Exception e) {
@@ -67,30 +58,18 @@ public class MapFragment extends android.support.v4.app.Fragment {
         }
 
         mMap = mMapView.getMap();
-
-        mInProgress = DataSource.get(getActivity().getApplicationContext()).getInProgress();
-
-        for (Delivery d : mInProgress) {
-            MarkerOptions pickupMarker = new MarkerOptions().position(
-                    getLatLongFromAddress(d.getPickupAddress())).title(d.getPickupAddress() + " Pickup");
-
-            MarkerOptions dropoffMarker = new MarkerOptions().position(
-                    getLatLongFromAddress(d.getDropoffAddress())).title(d.getDropoffAddress() + " Drop Off");
-
-            pickupMarker.icon(BitmapDescriptorFactory
-                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-
-            dropoffMarker.icon(BitmapDescriptorFactory
-                    .defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
-            mMap.addMarker(pickupMarker);
-            mMap.addMarker(dropoffMarker);
-        }
-
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(new LatLng(117.2, 32.7)).zoom(5).build();
         mMap.animateCamera(CameraUpdateFactory
                 .newCameraPosition(cameraPosition));
+
+        Button refreshButton = (Button) v.findViewById(R.id.refresh_markers);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new UpdateMarker().execute();
+            }
+        });
 
         // Perform any camera updates here
         return v;
@@ -120,12 +99,12 @@ public class MapFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public void updateMarkers() {
+    public ArrayList createMarkers() {
+        ArrayList<Delivery> array = DataSource.get(getActivity().getApplicationContext()).getInProgress();
+        ArrayList<MarkerOptions> markers = new ArrayList<>();
+
         mMap = mMapView.getMap();
-
-        mInProgress = DataSource.get(getActivity().getApplicationContext()).getInProgress();
-
-        for (Delivery d : mInProgress) {
+        for (Delivery d : array) {
             MarkerOptions pickupMarker = new MarkerOptions().position(
                     getLatLongFromAddress(d.getPickupAddress())).title(d.getPickupAddress() + " Pickup");
 
@@ -138,8 +117,37 @@ public class MapFragment extends android.support.v4.app.Fragment {
             dropoffMarker.icon(BitmapDescriptorFactory
                     .defaultMarker(BitmapDescriptorFactory.HUE_RED));
 
-            mMap.addMarker(pickupMarker);
-            mMap.addMarker(dropoffMarker);
+            markers.add(pickupMarker);
+            markers.add(dropoffMarker);
+        }
+
+        return markers;
+    }
+
+    private class UpdateMarker extends AsyncTask<Void, Void, ArrayList<MarkerOptions>> {
+        ArrayList<MarkerOptions> markers;
+
+        @Override
+        protected ArrayList doInBackground(Void... params) {
+            markers = createMarkers();
+            return markers;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<MarkerOptions> markers) {
+            for (MarkerOptions m : markers) {
+                mMap.addMarker(m);
+            }
+            Toast.makeText(getActivity(), "Updated!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getActivity(), "Updating...", Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
         }
     }
 
