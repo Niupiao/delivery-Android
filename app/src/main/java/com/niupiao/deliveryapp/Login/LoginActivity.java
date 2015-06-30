@@ -5,8 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -17,8 +16,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -39,7 +36,7 @@ public class LoginActivity extends ActionBarActivity {
     private EditText mIdField;
     private LinearLayout ll;
     private View logo;
-    private ProgressBar loader;
+    private LinearLayout loader;
     private EditText mPasswordField;
     private final Context context = this;
 
@@ -52,7 +49,7 @@ public class LoginActivity extends ActionBarActivity {
 
         ll = (LinearLayout) findViewById(R.id.sliding_ll);
         logo = findViewById(R.id.image);
-        loader = (ProgressBar) findViewById(R.id.loading_circle);
+        loader = (LinearLayout) findViewById(R.id.loading_circle);
 
         mIdField = (EditText) findViewById(R.id.username_et);
         mLoginButton = (Button) findViewById(R.id.login_button);
@@ -68,7 +65,7 @@ public class LoginActivity extends ActionBarActivity {
                     public void run() {
                         sendLoginRequest();
                     }
-                }, 500);
+                }, 1700);
             }
         });
 
@@ -77,33 +74,10 @@ public class LoginActivity extends ActionBarActivity {
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         if (settings.getBoolean("rememberLogin", false)) {
             mIdField.setText(settings.getString("login", ""));
-            mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", false));
+            mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", true));
             mLoginButton.callOnClick();
         }
 
-    }
-
-    private void end() {
-        finish();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -126,24 +100,57 @@ public class LoginActivity extends ActionBarActivity {
         fadeOut.setInterpolator(new AccelerateInterpolator());
         fadeOut.setDuration(500);
         fadeOut.setFillAfter(true);
+        ll.clearAnimation();
         ll.startAnimation(fadeOut);
         ll.setVisibility(View.GONE);
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new AccelerateInterpolator());
-        fadeIn.setDuration(100);
-        fadeIn.setStartOffset(900);
+        fadeIn.setDuration(150);
+        fadeIn.setStartOffset(700);
         fadeIn.setFillAfter(true);
+        loader.clearAnimation();
         loader.startAnimation(fadeIn);
         loader.setVisibility(View.VISIBLE);
 
         // Move logo down
-        Animation moveDown = new TranslateAnimation(0, 0, 0, 200);
+        Animation moveDown = new TranslateAnimation(0, 0, 0, 300);
         moveDown.setDuration(600);
-        moveDown.setStartOffset(800);
+        moveDown.setStartOffset(600);
         moveDown.setInterpolator(new DecelerateInterpolator());
         moveDown.setFillAfter(true);
+        logo.clearAnimation();
         logo.startAnimation(moveDown);
+    }
+
+    // Reverse prior animation
+    private void returnToLogin() {
+        // Transition to loading animation
+        Animation fadeIn = new AlphaAnimation(1, 0);
+        fadeIn.setInterpolator(new AccelerateInterpolator());
+        fadeIn.setDuration(100);
+        fadeIn.setFillAfter(true);
+        ll.clearAnimation();
+        ll.startAnimation(fadeIn);
+        ll.setVisibility(View.VISIBLE);
+
+        Animation fadeOut = new AlphaAnimation(0, 1);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(100);
+        fadeOut.setStartOffset(100);
+        fadeOut.setFillAfter(true);
+        loader.clearAnimation();
+        loader.startAnimation(fadeOut);
+        loader.setVisibility(View.GONE);
+
+        // Move logo down
+        Animation moveUp = new TranslateAnimation(0, 0, 300, 0);
+        moveUp.setDuration(600);
+        moveUp.setStartOffset(100);
+        moveUp.setInterpolator(new DecelerateInterpolator());
+        moveUp.setFillAfter(true);
+        logo.clearAnimation();
+        logo.startAnimation(moveUp);
     }
 
     // Create and send login request to server
@@ -156,17 +163,33 @@ public class LoginActivity extends ActionBarActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
-                        //startActivity(intent);
-                        //end();
+                        try {
+                            String check = response.getString("error");
+                            if (check.contains("Invalid key")) {
+                                // Wrong login information
+                                returnToLogin();
+                                Log.e("false login", "true");
+                            } else {
+                                // Start application
+                                Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
+                                startActivity(intent);
+                                end();
+                            }
+                        } catch (Exception e) {
+                            Log.e("JSON login error: ", e.toString());
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
         VolleySingleton.getInstance(context).addToRequestQueue(jsonRequest);
+    }
+
+    private void end() {
+        finish();
     }
 }
