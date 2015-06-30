@@ -35,6 +35,12 @@ public class MapFragment extends android.support.v4.app.Fragment {
     private ArrayList<Delivery> mInProgress;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // inflate and return the layout
@@ -49,8 +55,8 @@ public class MapFragment extends android.support.v4.app.Fragment {
         refreshButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateMarkers();
                 Toast.makeText(getActivity(), "Updating...", Toast.LENGTH_LONG).show();
+                updateMarkers();
             }
         });
 
