@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -16,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -36,7 +36,7 @@ public class LoginActivity extends ActionBarActivity {
     private EditText mIdField;
     private LinearLayout ll;
     private View logo;
-    private LinearLayout loader;
+    private ProgressBar loader;
     private EditText mPasswordField;
     private final Context context = this;
 
@@ -49,7 +49,7 @@ public class LoginActivity extends ActionBarActivity {
 
         ll = (LinearLayout) findViewById(R.id.sliding_ll);
         logo = findViewById(R.id.image);
-        loader = (LinearLayout) findViewById(R.id.loading_circle);
+        loader = (ProgressBar) findViewById(R.id.loading_circle);
 
         mIdField = (EditText) findViewById(R.id.username_et);
         mLoginButton = (Button) findViewById(R.id.login_button);
@@ -102,14 +102,23 @@ public class LoginActivity extends ActionBarActivity {
         fadeOut.setFillAfter(true);
         ll.clearAnimation();
         ll.startAnimation(fadeOut);
-        ll.setVisibility(View.GONE);
+        //ll.setVisibility(View.INVISIBLE);
+/*
+        Animation up = new TranslateAnimation(0, 0, 200, 0);
+        up.setDuration(10);
+        up.setFillAfter(true);
+        */
 
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new AccelerateInterpolator());
         fadeIn.setDuration(150);
-        fadeIn.setStartOffset(700);
+        fadeIn.setStartOffset(600);
         fadeIn.setFillAfter(true);
-        loader.clearAnimation();
+
+        //AnimationSet moveLoader = new AnimationSet(false);
+        //moveLoader.addAnimation(up);
+        //moveLoader.addAnimation(fadeIn);
+        //loader.clearAnimation();
         loader.startAnimation(fadeIn);
         loader.setVisibility(View.VISIBLE);
 
@@ -125,31 +134,37 @@ public class LoginActivity extends ActionBarActivity {
 
     // Reverse prior animation
     private void returnToLogin() {
-        // Transition to loading animation
+        // Fade textviews in
         Animation fadeIn = new AlphaAnimation(1, 0);
         fadeIn.setInterpolator(new AccelerateInterpolator());
-        fadeIn.setDuration(100);
+        fadeIn.setStartOffset(300);
+        fadeIn.setDuration(500);
         fadeIn.setFillAfter(true);
-        ll.clearAnimation();
         ll.startAnimation(fadeIn);
-        ll.setVisibility(View.VISIBLE);
-
-        Animation fadeOut = new AlphaAnimation(0, 1);
+/*
+        Animation down = new TranslateAnimation(0, 0, 0, 200);
+        down.setDuration(10);
+        down.setFillAfter(true);
+*/
+        Animation fadeOut = new AlphaAnimation(1, 0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(100);
-        fadeOut.setStartOffset(100);
+        fadeOut.setDuration(150);
+        fadeOut.setStartOffset(600);
         fadeOut.setFillAfter(true);
+
+        //AnimationSet moveLoader = new AnimationSet(false);
+        //moveLoader.addAnimation(down);
+        //moveLoader.addAnimation(fadeOut);
         loader.clearAnimation();
         loader.startAnimation(fadeOut);
-        loader.setVisibility(View.GONE);
 
-        // Move logo down
+        // Move logo up
         Animation moveUp = new TranslateAnimation(0, 0, 300, 0);
         moveUp.setDuration(600);
         moveUp.setStartOffset(100);
         moveUp.setInterpolator(new DecelerateInterpolator());
-        moveUp.setFillAfter(true);
-        logo.clearAnimation();
+        //moveUp.setFillAfter(true);
+        //logo.clearAnimation();
         logo.startAnimation(moveUp);
     }
 
@@ -163,10 +178,16 @@ public class LoginActivity extends ActionBarActivity {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
+                        startActivity(intent);
+                        end();
+                        /* TODO: FIX THIS
                         try {
+                            // Returns to login screen
                             String check = response.getString("error");
                             if (check.contains("Invalid key")) {
                                 // Wrong login information
+                                Log.e("error", "asl;df");
                                 returnToLogin();
                                 Log.e("false login", "true");
                             } else {
@@ -177,7 +198,7 @@ public class LoginActivity extends ActionBarActivity {
                             }
                         } catch (Exception e) {
                             Log.e("JSON login error: ", e.toString());
-                        }
+                        } */
                     }
                 },
                 new Response.ErrorListener() {
