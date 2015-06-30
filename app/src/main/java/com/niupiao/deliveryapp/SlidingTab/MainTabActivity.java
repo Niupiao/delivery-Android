@@ -48,10 +48,10 @@ public class MainTabActivity extends ActionBarActivity {
         mViewPager.setOffscreenPageLimit(3);
 
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setIndicatorColor(getResources().getColor(R.color.ColorPrimaryDark));
+        tabs.setIndicatorColor(getResources().getColor(R.color.ColorPrimarySlightlyDark));
         tabs.setShouldExpand(true);
         tabs.setUnderlineHeight(1);
-        tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimaryDark));
+        tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimarySlightlyDark));
         tabs.setTextColor(getResources().getColor(android.R.color.white));
         tabs.setDividerColor(getResources().getColor(R.color.material_blue_grey_800));
 
