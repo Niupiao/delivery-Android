@@ -13,12 +13,6 @@ public class DataSource {
     private Context mAppContext;
     public static String USER_KEY;
 
-    public static final String MY_DELIVERIES = "JSON my current deliveries array";
-    private static final String JSON_ID = "id";
-    private static final String JSON_TITLE = "title";
-    private static final String JSON_SOLVED = "solved";
-    private static final String JSON_DATE = "date";
-
     private ArrayList<Delivery> mDeliveries;
     private ArrayList<Delivery> mInProgress;
 

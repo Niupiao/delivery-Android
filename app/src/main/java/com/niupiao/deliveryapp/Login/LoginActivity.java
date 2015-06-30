@@ -50,6 +50,7 @@ public class LoginActivity extends ActionBarActivity {
                             public void onResponse(JSONObject response) {
                                 Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
                                 startActivity(intent);
+                                end();
                             }
                         },
                         new Response.ErrorListener() {
@@ -61,6 +62,10 @@ public class LoginActivity extends ActionBarActivity {
                 VolleySingleton.getInstance(context).addToRequestQueue(jsonRequest);
             }
         });
+    }
+
+    private void end() {
+        finish();
     }
 
     @Override

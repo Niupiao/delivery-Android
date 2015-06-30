@@ -207,4 +207,8 @@ public class Delivery {
     public void setDistance(int distance) {
         mDistance = distance;
     }
+
+    public int getItemID() {
+        return ID;
+    }
 }
