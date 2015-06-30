@@ -42,7 +42,14 @@
             android:layout_marginRight="15dp"
             android:hint="Enter ID"
             />
+
     </LinearLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_remember"
+        android:id="@+id/remember_checkbox" />
 
     <Button
         android:id="@+id/login_button"
