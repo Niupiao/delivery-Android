@@ -1,5 +1,8 @@
 package com.niupiao.deliveryapp.Deliveries;
 
+import android.util.Log;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Random;
@@ -14,22 +17,28 @@ public class Delivery {
     public static final int PICKED_UP = 1;
     public static final int DELIVERED = 2;
 
-    public UUID mId;
-    public String mName;
-    public int mWage;
-    public int mDistance;
-    public boolean claimed;
+    final String JSON_ID = "id";
+    final String JSON_NAME = "item_name";
+    final String JSON_QUANTITY = "item_quantity";
+    final String JSON_SELLER_TIME = "seller_availability";
 
-    public String mPickupName;
-    public String mPickupAddress;
-    public int mPickupTime;
-    public String mPickupPhone;
+    UUID mId;
+    int ID;
+    String mName;
+    int mWage;
+    int mDistance;
+    boolean claimed;
 
-    public String mDropoffName;
-    public String mDropoffAddress;
-    public int mDropoffTime;
-    public String mDropoffPhone;
-    public int mDeliveryStatus;
+    String mPickupName;
+    String mPickupAddress;
+    int mPickupTime;
+    String mPickupPhone;
+
+    String mDropoffName;
+    String mDropoffAddress;
+    int mDropoffTime;
+    String mDropoffPhone;
+    int mDeliveryStatus;
 
     public Delivery(String name) {
         mId = UUID.randomUUID();
@@ -53,8 +62,13 @@ public class Delivery {
 
     public Delivery(JSONObject json) {
         mId = UUID.randomUUID();
+        try {
+            ID = json.getInt(JSON_ID);
+            mName = json.getString(JSON_NAME);
+        } catch (JSONException e) {
+            Log.e("JSON conversion failed:", e.toString());
+        }
 
-        mName = "Delivery";
         mWage = new Random().nextInt(5) + 1;
         mPickupAddress = "" + mDropoffTime + mPickupTime + " Hollybrook St";
         mDeliveryStatus = READY_FOR_PICKUP;
@@ -70,16 +84,16 @@ public class Delivery {
         //mDropoffPhone;
     }
 
-    @Override
-    public String toString() {
-        return mName;
-    }
-
     public boolean equals(Delivery next) {
         if (this.getId().equals(next.getId()))
             return true;
 
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return mName;
     }
 
     public void setId(UUID id) {
@@ -186,4 +200,11 @@ public class Delivery {
         this.claimed = claimed;
     }
 
+    public int getDistance() {
+        return mDistance;
+    }
+
+    public void setDistance(int distance) {
+        mDistance = distance;
+    }
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
@@ -53,7 +52,7 @@ public class MainTabActivity extends ActionBarActivity {
         tabs.setShouldExpand(true);
         tabs.setUnderlineHeight(1);
         tabs.setUnderlineColor(getResources().getColor(R.color.ColorPrimaryDark));
-        tabs.setTextColorResource(R.drawable.selector);
+        tabs.setTextColor(getResources().getColor(android.R.color.white));
         tabs.setDividerColor(getResources().getColor(R.color.material_blue_grey_800));
 
         tabs.setViewPager(mViewPager);
@@ -122,15 +121,14 @@ public class MainTabActivity extends ActionBarActivity {
             case R.id.menu_sort_distance:
                 Collections.sort(mCurrentList, new Comparator<Delivery>() {
                     public int compare(Delivery d1, Delivery d2) {
-                        if (d1.mDistance < d2.mDistance)
+                        if (d1.getDistance() < d2.getDistance())
                             return -1;
-                        if (d1.mDistance > d2.mDistance)
+                        if (d1.getDistance() > d2.getDistance())
                             return 1;
                         else
                             return 0;
                     }
                 });
-                Log.i("Sort distance:", "yes");
                 mCurAdapter.notifyDataSetChanged();
                 return true;
 
@@ -146,7 +144,6 @@ public class MainTabActivity extends ActionBarActivity {
                     }
                 });
                 mCurAdapter.notifyDataSetChanged();
-                Log.i("Sort wage:", "yes");
                 return true;
 
             case R.id.menu_sort_time:
@@ -161,7 +158,6 @@ public class MainTabActivity extends ActionBarActivity {
                     }
                 });
                 mCurAdapter.notifyDataSetChanged();
-                Log.i("Sort time:", "yes");
                 return true;
             default:
                 return false;

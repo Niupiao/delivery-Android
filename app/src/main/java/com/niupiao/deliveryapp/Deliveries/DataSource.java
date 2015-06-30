@@ -1,11 +1,6 @@
 package com.niupiao.deliveryapp.Deliveries;
 
 import android.content.Context;
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -16,9 +11,9 @@ import java.util.UUID;
 public class DataSource {
     private static DataSource sDataSource;
     private Context mAppContext;
+    public static String USER_KEY;
 
     public static final String MY_DELIVERIES = "JSON my current deliveries array";
-    public static final String USER_KEY = "JSON object Key";
     private static final String JSON_ID = "id";
     private static final String JSON_TITLE = "title";
     private static final String JSON_SOLVED = "solved";
@@ -31,10 +26,6 @@ public class DataSource {
         mAppContext = appContext;
         mInProgress = new ArrayList<Delivery>();
         mDeliveries = new ArrayList<Delivery>();
-        for (int i = 1; i < 6; i++) {
-            Delivery d = new Delivery(i + "");
-            mDeliveries.add(d);
-        }
     }
 
     public static DataSource get(Context c) {
@@ -42,18 +33,6 @@ public class DataSource {
             sDataSource = new DataSource(c.getApplicationContext());
         }
         return sDataSource;
-    }
-
-    public void createLists(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(MY_DELIVERIES);
-            for (int i = 0; i < array.length(); i++) {
-                Delivery d = new Delivery(array.getJSONObject(i));
-                mInProgress.add(d);
-            }
-        } catch (JSONException e) {
-            Log.e("JSON Array failed", e.toString());
-        }
     }
 
     public ArrayList<Delivery> getDeliveries() {
@@ -74,6 +53,14 @@ public class DataSource {
                 return d;
         }
         return null;
+    }
+
+    public void setDeliveries(ArrayList<Delivery> deliveries) {
+        mDeliveries = deliveries;
+    }
+
+    public void setInProgress(ArrayList<Delivery> inProgress) {
+        mInProgress = inProgress;
     }
 
     public void claimDelivery(Delivery d) {

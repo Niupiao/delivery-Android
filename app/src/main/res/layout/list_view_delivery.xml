@@ -4,7 +4,7 @@
               android:layout_height="wrap_content"
               android:layout_margin="15dp"
               android:orientation="horizontal"
-              android:background="@android:color/white"
+              android:background="@drawable/selector"
               android:elevation="1dp">
 
     <View

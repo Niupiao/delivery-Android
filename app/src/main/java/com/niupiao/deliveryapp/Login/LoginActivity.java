@@ -41,17 +41,14 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=json&key=";
+                DataSource.USER_KEY = mIdField.getText().toString();
                 url += mIdField.getText();
                 // Formulate the request and handle the response.
                 JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
-                                DataSource ds = DataSource.get(getApplicationContext());
-                                ds.createLists(response);
-
                                 Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
-                                intent.putExtra(DataSource.USER_KEY, mIdField.getText());
                                 startActivity(intent);
                             }
                         },

@@ -4,19 +4,29 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
+import com.niupiao.deliveryapp.VolleySingleton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -34,11 +44,9 @@ public class ListingsFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
-
-        mAdapter = new DeliveryAdapter(mDeliveries);
-        setListAdapter(mAdapter);
-
+        updateArray();
         ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mDeliveries);
     }
 
@@ -46,16 +54,15 @@ public class ListingsFragment extends ListFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_listings, container, false);
 
-        final SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh_listings_view);
+        SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh_listings_view);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                // Fetch new data here
-
-                ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
-                swipeLayout.setRefreshing(false);
+                updateListings();
             }
         });
+        swipeLayout.setRefreshing(true);
+        updateListings();
 
         return v;
     }
@@ -88,7 +95,7 @@ public class ListingsFragment extends ListFragment {
             TextView puTime = (TextView) convertView.findViewById(R.id.list_item_pickup_time);
             puTime.setText(d.getPickupTime() + " - " + (d.getPickupTime() + 3) + " AM");
             TextView puDistance = (TextView) convertView.findViewById(R.id.list_item_distance);
-            puDistance.setText(d.mDistance + " km");
+            puDistance.setText(d.getDistance() + " km");
 
 
             View statusColorView = convertView.findViewById(R.id.priority_indicator);
@@ -106,5 +113,44 @@ public class ListingsFragment extends ListFragment {
 
             return convertView;
         }
+    }
+
+    private void updateArray() {
+        DataSource.get(getActivity()).setDeliveries(mDeliveries);
+        mAdapter = new DeliveryAdapter(mDeliveries);
+        setListAdapter(mAdapter);
+        ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+    }
+
+    public void updateListings() {
+        String url = "https://niupiaomarket.herokuapp.com/delivery/index?format=json&key=" + DataSource.USER_KEY;
+        JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray jsonArray) {
+                mDeliveries = new ArrayList<Delivery>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    try {
+                        JSONObject jObj = jsonArray.getJSONObject(i);
+                        Delivery d = new Delivery(jObj);
+                        mDeliveries.add(d);
+                    } catch (JSONException e) {
+                        Log.e("JSON Object error: ", e.toString());
+                    }
+                }
+
+                updateArray();
+                ((SwipeRefreshLayout) getView().findViewById(R.id.refresh_listings_view)).setRefreshing(false);
+                Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Toast.makeText(getActivity(), volleyError.toString(), Toast.LENGTH_LONG).show();
+                return;
+            }
+        });
+
+        VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }
 }
