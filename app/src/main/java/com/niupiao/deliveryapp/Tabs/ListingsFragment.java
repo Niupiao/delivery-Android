@@ -124,7 +124,6 @@ public class ListingsFragment extends ListFragment {
 
     public void updateListings(boolean isSwiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/index?format=json&key=" + DataSource.USER_KEY;
-        final boolean swiped = isSwiped;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {

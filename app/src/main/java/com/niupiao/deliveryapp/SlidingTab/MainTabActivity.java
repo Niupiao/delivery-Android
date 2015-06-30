@@ -74,7 +74,7 @@ public class MainTabActivity extends ActionBarActivity {
                     if (position == 0) {
                         ((ListingsFragment) curFragment).updateListings(false);
                     } else if (position == 1) {
-                        ((InProgressFragment) curFragment).updateMyDeliveries(false);
+
                     }
                 }
             }
@@ -88,20 +88,16 @@ public class MainTabActivity extends ActionBarActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            mViewPager.setCurrentItem(1);
-        }
-        /*
         if (requestCode == ListingsFragment.DELIVERY_DETAILS) {
             if (resultCode == RESULT_OK) {
                 mViewPager.setCurrentItem(1);
+                ((InProgressFragment) curFragment).updateMyDeliveries(false);
             }
         } else if (requestCode == InProgressFragment.PROGRESS_DELIVERY) {
             if (resultCode == RESULT_OK) {
                 mViewPager.setCurrentItem(1);
             }
         }
-        */
     }
 
     @Override

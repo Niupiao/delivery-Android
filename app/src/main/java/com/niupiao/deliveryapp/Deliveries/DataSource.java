@@ -11,7 +11,7 @@ import java.util.UUID;
 public class DataSource {
     private static DataSource sDataSource;
     private Context mAppContext;
-    public static String USER_KEY = "a";
+    public static String USER_KEY;
 
     private ArrayList<Delivery> mDeliveries;
     private ArrayList<Delivery> mInProgress;

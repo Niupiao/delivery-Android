@@ -8,12 +8,12 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -174,6 +174,10 @@ public class MapFragment extends android.support.v4.app.Fragment implements Loca
         }
     }
 
+    public void updateMarkers() {
+        new UpdateMarker().execute();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -202,7 +206,7 @@ public class MapFragment extends android.support.v4.app.Fragment implements Loca
 
     @Override
     public void onLocationChanged(Location location) {
-        if(location != null)
+        if (location != null)
             mCurLocation = new LatLng(location.getLatitude(), location.getLongitude());
         else
             mCurLocation = new LatLng(47.92, 106.92);

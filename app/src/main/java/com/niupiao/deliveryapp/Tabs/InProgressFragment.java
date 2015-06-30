@@ -67,6 +67,8 @@ public class InProgressFragment extends ListFragment {
         return v;
     }
 
+    // TODO: load markers after first data
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Delivery d = ((DeliveryAdapter) getListAdapter()).getItem(position);
