@@ -22,6 +22,7 @@ import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
 import com.niupiao.deliveryapp.R;
+import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
 
 import org.json.JSONArray;
@@ -57,11 +58,11 @@ public class InProgressFragment extends ListFragment {
             @Override
             public void onRefresh() {
                 // Fetch new data here
-                updateMyDeliveries();
+                updateMyDeliveries(true);
             }
         });
 
-        updateMyDeliveries();
+        updateMyDeliveries(false);
 
         return v;
     }
@@ -123,9 +124,10 @@ public class InProgressFragment extends ListFragment {
         mAdapter = new DeliveryAdapter(mInProgress);
         setListAdapter(mAdapter);
         ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mInProgress);
     }
 
-    public void updateMyDeliveries() {
+    public void updateMyDeliveries(final boolean swiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/claimed?format=json&key=" + DataSource.USER_KEY;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
@@ -144,7 +146,8 @@ public class InProgressFragment extends ListFragment {
 
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_in_progress)).setRefreshing(false);
-                Toast.makeText(getActivity(), "Updated my deliveries", Toast.LENGTH_SHORT).show();
+                if (swiped)
+                    Toast.makeText(getActivity(), "Updated my deliveries", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override

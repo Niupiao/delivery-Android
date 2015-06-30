@@ -37,7 +37,6 @@ import java.util.ArrayList;
 public class ListingsFragment extends ListFragment {
     public static final int DELIVERY_DETAILS = 120;
 
-
     public ArrayList<Delivery> mDeliveries;
     public DeliveryAdapter mAdapter;
 
@@ -48,7 +47,6 @@ public class ListingsFragment extends ListFragment {
 
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
         updateArray();
-        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mDeliveries);
     }
 
     @Override
@@ -59,11 +57,11 @@ public class ListingsFragment extends ListFragment {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                updateListings();
+                updateListings(true);
             }
         });
         swipeLayout.setRefreshing(true);
-        updateListings();
+        updateListings(false);
 
         return v;
     }
@@ -121,10 +119,12 @@ public class ListingsFragment extends ListFragment {
         mAdapter = new DeliveryAdapter(mDeliveries);
         setListAdapter(mAdapter);
         ((DeliveryAdapter) getListAdapter()).notifyDataSetChanged();
+        ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mDeliveries);
     }
 
-    public void updateListings() {
+    public void updateListings(boolean isSwiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/index?format=json&key=" + DataSource.USER_KEY;
+        final boolean swiped = isSwiped;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
@@ -141,7 +141,8 @@ public class ListingsFragment extends ListFragment {
 
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.refresh_listings_view)).setRefreshing(false);
-                Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
+                if (swiped)
+                    Toast.makeText(getActivity(), "Refreshed deliveries", Toast.LENGTH_SHORT).show();
             }
 
         }, new Response.ErrorListener() {

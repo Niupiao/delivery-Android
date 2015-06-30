@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -97,8 +96,8 @@ public class DeliveryFragment extends Fragment {
     }
 
     public void updateClaimed(Delivery d) {
-        String url = "https://niupiaomarket.herokuapp.com/delivery/index?format=json&key=" + DataSource.USER_KEY;
-        url += ("&delivery_id=" + d.getItemID());
+        String url = "https://niupiaomarket.herokuapp.com/delivery/claim?format=json&key=" + DataSource.USER_KEY;
+        url = url + "&delivery_id=" + d.getItemID();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -113,7 +112,7 @@ public class DeliveryFragment extends Fragment {
                     }
                 });
 
-        request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
+        //request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }
 }

@@ -2,7 +2,7 @@ package com.niupiao.deliveryapp.SlidingTab;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -31,7 +31,7 @@ public class MainTabActivity extends ActionBarActivity {
     final int numTabs = 3;
     ArrayList<Delivery> mCurrentList;
     ArrayAdapter<Delivery> mCurAdapter;
-    ListFragment curFragment;
+    Fragment curFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,23 +65,14 @@ public class MainTabActivity extends ActionBarActivity {
 
             @Override
             public void onPageSelected(int position) {
-                if (position == 2) {
-                    //sortMenu.hideMenuButton(true);
-                } else {
-                    curFragment = (ListFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:"
+                curFragment = getSupportFragmentManager().findFragmentByTag("android:switcher:"
                             + R.id.delivery_list_viewPager + ":" + mViewPager.getCurrentItem());
                     if (position == 0) {
-                        mCurrentList = ((ListingsFragment) curFragment).mDeliveries;
-                        mCurAdapter = ((ListingsFragment) curFragment).mAdapter;
-                        mCurAdapter.notifyDataSetChanged();
-                    } else {
-                        mCurrentList = ((InProgressFragment) curFragment).mInProgress;
-                        mCurAdapter = ((InProgressFragment) curFragment).mAdapter;
-                        mCurAdapter.notifyDataSetChanged();
+                        ((ListingsFragment) curFragment).updateListings(false);
+                    } else if (position == 1) {
+                        ((InProgressFragment) curFragment).updateMyDeliveries(false);
                     }
-                    //sortMenu.showMenuButton(true);
                 }
-            }
 
             @Override
             public void onPageScrollStateChanged(int state) {
