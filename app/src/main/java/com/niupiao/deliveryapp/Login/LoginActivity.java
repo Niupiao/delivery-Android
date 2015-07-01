@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -15,7 +16,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -35,7 +36,7 @@ public class LoginActivity extends ActionBarActivity {
     private EditText mIdField;
     private LinearLayout ll;
     private View logo;
-    private ProgressBar loader;
+    private LinearLayout loader;
     private final Context context = this;
 
 
@@ -45,11 +46,12 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
+        // Get views
         ll = (LinearLayout) findViewById(R.id.sliding_ll);
         logo = findViewById(R.id.image);
-        loader = (ProgressBar) findViewById(R.id.loading_circle);
-
+        loader = (LinearLayout) findViewById(R.id.loading_circle);
         mIdField = (EditText) findViewById(R.id.username_et);
+        // Login button listener
         mLoginButton = (Button) findViewById(R.id.login_button);
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,19 +65,63 @@ public class LoginActivity extends ActionBarActivity {
                     public void run() {
                         sendLoginRequest();
                     }
-                }, 1700);
+                }, 1900);
             }
         });
 
+        // Initialize saved user preferences
         mRememberCheckBox = (CheckBox) findViewById(R.id.remember_checkbox);
-
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         if (settings.getBoolean("rememberLogin", false)) {
+            // Automatically log in user
+            mLoginButton.callOnClick();
             mIdField.setText(settings.getString("login", ""));
             mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", false));
-            mLoginButton.callOnClick();
         }
 
+    }
+
+    // Create and send login request to server
+    private void sendLoginRequest() {
+        String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=json&key=";
+        DataSource.USER_KEY = mIdField.getText().toString();
+        url += mIdField.getText();
+        // Formulate the request and handle the response.
+        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            // Returns to login screen
+                            String check = response.getString("error");
+                            if (check.contains("Invalid key")) {
+                                // Wrong login information
+                                returnToLogin();
+                                Toast.makeText(getApplicationContext(), "Wrong key. Please try again.", Toast.LENGTH_LONG).show();
+                            } else {
+                                // Start application
+                                Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
+                                startActivity(intent);
+                                end();
+                            }
+                        } catch (Exception e) {
+                            // Bad server response
+                            returnToLogin();
+                            Log.e("JSON login error: ", e.toString());
+                            Toast.makeText(getApplicationContext(), "Login error. Please try again.", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Bad server response
+                        returnToLogin();
+                        Toast.makeText(getApplicationContext(), "Login error. Please try again.", Toast.LENGTH_LONG).show();
+                    }
+                });
+        // Add request to Queue
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonRequest);
     }
 
     @Override
@@ -96,116 +142,57 @@ public class LoginActivity extends ActionBarActivity {
         // Transition to loading animation
         Animation fadeOut = new AlphaAnimation(1, 0);
         fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(500);
+        fadeOut.setDuration(400);
         fadeOut.setFillAfter(true);
-        ll.clearAnimation();
         ll.startAnimation(fadeOut);
-        //ll.setVisibility(View.INVISIBLE);
-/*
-        Animation up = new TranslateAnimation(0, 0, 200, 0);
-        up.setDuration(10);
-        up.setFillAfter(true);
-        */
+        ll.setVisibility(View.GONE);
 
+        // Fade in loader
         Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new AccelerateInterpolator());
-        fadeIn.setDuration(150);
-        fadeIn.setStartOffset(600);
+        fadeIn.setDuration(300);
+        fadeIn.setStartOffset(300);
         fadeIn.setFillAfter(true);
-
-        //AnimationSet moveLoader = new AnimationSet(false);
-        //moveLoader.addAnimation(up);
-        //moveLoader.addAnimation(fadeIn);
-        //loader.clearAnimation();
         loader.startAnimation(fadeIn);
         loader.setVisibility(View.VISIBLE);
 
         // Move logo down
-        Animation moveDown = new TranslateAnimation(0, 0, 0, 300);
+        Animation moveDown = new TranslateAnimation(0, 0, 0, 200);
         moveDown.setDuration(600);
-        moveDown.setStartOffset(600);
+        moveDown.setStartOffset(200);
         moveDown.setInterpolator(new DecelerateInterpolator());
         moveDown.setFillAfter(true);
-        logo.clearAnimation();
         logo.startAnimation(moveDown);
     }
 
     // Reverse prior animation
     private void returnToLogin() {
+
+        // Fade out loader
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(150);
+        fadeOut.setFillAfter(true);
+        loader.clearAnimation();
+        loader.startAnimation(fadeOut);
+        loader.setVisibility(View.GONE);
+
+        // Move logo up
+        Animation moveUp = new TranslateAnimation(0, 0, 200, 0);
+        moveUp.setDuration(600);
+        moveUp.setStartOffset(200);
+        moveUp.setInterpolator(new DecelerateInterpolator());
+        moveUp.setFillAfter(true);
+        logo.startAnimation(moveUp);
+
         // Fade textviews in
-        Animation fadeIn = new AlphaAnimation(1, 0);
+        Animation fadeIn = new AlphaAnimation(0, 1);
         fadeIn.setInterpolator(new AccelerateInterpolator());
         fadeIn.setStartOffset(300);
         fadeIn.setDuration(500);
         fadeIn.setFillAfter(true);
         ll.startAnimation(fadeIn);
-/*
-        Animation down = new TranslateAnimation(0, 0, 0, 200);
-        down.setDuration(10);
-        down.setFillAfter(true);
-*/
-        Animation fadeOut = new AlphaAnimation(1, 0);
-        fadeOut.setInterpolator(new AccelerateInterpolator());
-        fadeOut.setDuration(150);
-        fadeOut.setStartOffset(600);
-        fadeOut.setFillAfter(true);
-
-        //AnimationSet moveLoader = new AnimationSet(false);
-        //moveLoader.addAnimation(down);
-        //moveLoader.addAnimation(fadeOut);
-        loader.clearAnimation();
-        loader.startAnimation(fadeOut);
-
-        // Move logo up
-        Animation moveUp = new TranslateAnimation(0, 0, 300, 0);
-        moveUp.setDuration(600);
-        moveUp.setStartOffset(100);
-        moveUp.setInterpolator(new DecelerateInterpolator());
-        //moveUp.setFillAfter(true);
-        //logo.clearAnimation();
-        logo.startAnimation(moveUp);
-    }
-
-    // Create and send login request to server
-    private void sendLoginRequest() {
-        String url = "https://niupiaomarket.herokuapp.com/delivery/login?format=json&key=";
-        DataSource.USER_KEY = mIdField.getText().toString();
-        url += mIdField.getText();
-        // Formulate the request and handle the response.
-        JsonObjectRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
-                        startActivity(intent);
-                        end();
-                        /* TODO: FIX THIS
-                        try {
-                            // Returns to login screen
-                            String check = response.getString("error");
-                            if (check.contains("Invalid key")) {
-                                // Wrong login information
-                                Log.e("error", "asl;df");
-                                returnToLogin();
-                                Log.e("false login", "true");
-                            } else {
-                                // Start application
-                                Intent intent = new Intent(getApplicationContext(), MainTabActivity.class);
-                                startActivity(intent);
-                                end();
-                            }
-                        } catch (Exception e) {
-                            Log.e("JSON login error: ", e.toString());
-                        } */
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                });
-        VolleySingleton.getInstance(context).addToRequestQueue(jsonRequest);
+        ll.setVisibility(View.VISIBLE);
     }
 
     private void end() {
