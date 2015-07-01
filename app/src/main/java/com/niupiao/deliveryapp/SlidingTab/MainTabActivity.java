@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
+import com.niupiao.deliveryapp.Login.LoginActivity;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.Tabs.InProgressFragment;
 import com.niupiao.deliveryapp.Tabs.ListingsFragment;
@@ -156,6 +157,12 @@ public class MainTabActivity extends ActionBarActivity {
                 });
                 mCurAdapter.notifyDataSetChanged(); // Update list
                 return true;
+            case R.id.log_out:
+                // Logs the user out
+                Intent i = new Intent(this, LoginActivity.class);
+                i.putExtra("Logged Out", true);
+                startActivity(i);
+                finish();
             default:
                 return false;
         }

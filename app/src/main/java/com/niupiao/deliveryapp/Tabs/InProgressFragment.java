@@ -1,6 +1,7 @@
 package com.niupiao.deliveryapp.Tabs;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -43,6 +44,7 @@ public class InProgressFragment extends ListFragment {
 
     public ArrayList<Delivery> mInProgress;
     public DeliveryAdapter mAdapter;
+    AsyncTask asyncTask;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -156,7 +158,9 @@ public class InProgressFragment extends ListFragment {
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_in_progress)).setRefreshing(false);
                 // Automatically add new markers on the map
-                ((MapFragment) getActivity().getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.delivery_list_viewPager + ":2")).updateMarkers();
+                asyncTask = ((MapFragment) getActivity().getSupportFragmentManager().
+                        findFragmentByTag("android:switcher:" + R.id.delivery_list_viewPager + ":2"))
+                        .updateMarkers();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -168,5 +172,12 @@ public class InProgressFragment extends ListFragment {
         // Time out request
         request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (asyncTask != null)
+            asyncTask.cancel(true);
     }
 }

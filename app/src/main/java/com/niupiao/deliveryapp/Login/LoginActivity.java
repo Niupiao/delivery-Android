@@ -36,6 +36,7 @@ public class LoginActivity extends ActionBarActivity {
     private LinearLayout ll;
     private View logo;
     private LinearLayout loader;
+    boolean loggedOut;
     private final Context context = this;
 
 
@@ -44,7 +45,10 @@ public class LoginActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
-
+        // Checks if user has logged out
+        if (getIntent() != null) {
+            loggedOut = getIntent().getBooleanExtra("Logged Out", false);
+        }
         // Get views
         ll = (LinearLayout) findViewById(R.id.sliding_ll);
         logo = findViewById(R.id.image);
@@ -73,7 +77,9 @@ public class LoginActivity extends ActionBarActivity {
         SharedPreferences settings = getPreferences(MODE_PRIVATE);
         if (settings.getBoolean("rememberLogin", false)) {
             // Automatically log in user
-            mLoginButton.callOnClick();
+            if (!loggedOut) {
+                mLoginButton.callOnClick();
+            }
             mIdField.setText(settings.getString("login", ""));
             mRememberCheckBox.setChecked(settings.getBoolean("rememberLogin", false));
         }
