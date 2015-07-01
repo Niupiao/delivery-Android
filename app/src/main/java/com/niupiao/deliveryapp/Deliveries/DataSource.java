@@ -7,14 +7,16 @@ import java.util.UUID;
 
 /**
  * Created by Joseph on 6/22/15.
+ *
+ * Singleton class to hold data for the lifetime of the application.
  */
 public class DataSource {
     private static DataSource sDataSource;
     private Context mAppContext;
-    public static String USER_KEY;
+    public static String USER_KEY; // Unique User key
 
-    private ArrayList<Delivery> mDeliveries;
-    private ArrayList<Delivery> mInProgress;
+    private ArrayList<Delivery> mDeliveries; // List of available deliveries
+    private ArrayList<Delivery> mInProgress; // List of claimed deliveries
 
     private DataSource(Context appContext) {
         mAppContext = appContext;
@@ -23,7 +25,7 @@ public class DataSource {
     }
 
     public static DataSource get(Context c) {
-        if (sDataSource == null) {
+        if (sDataSource == null) { // Create new instance
             sDataSource = new DataSource(c.getApplicationContext());
         }
         return sDataSource;
@@ -37,6 +39,7 @@ public class DataSource {
         return mInProgress;
     }
 
+    // Find and returns a delivery
     public Delivery getDelivery(UUID id) {
         for (Delivery d : mInProgress) {
             if (d.getId().equals(id))
@@ -49,21 +52,13 @@ public class DataSource {
         return null;
     }
 
+    // Update deliveries list
     public void setDeliveries(ArrayList<Delivery> deliveries) {
         mDeliveries = deliveries;
     }
 
+    // Update claimed list
     public void setInProgress(ArrayList<Delivery> inProgress) {
         mInProgress = inProgress;
-    }
-
-    public void claimDelivery(Delivery d) {
-        for (int i = 0; i < mDeliveries.size(); i++) {
-            if (mDeliveries.get(i).equals(d)) {
-                Delivery claimed = mDeliveries.remove(i);
-                claimed.setClaimed(true);
-                mInProgress.add(claimed);
-            }
-        }
     }
 }

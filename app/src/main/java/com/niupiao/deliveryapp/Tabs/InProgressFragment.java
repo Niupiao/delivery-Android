@@ -33,9 +33,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Inanity on 6/22/2015.
+ * Created by ohjoseph on 6/22/2015.
+ * <p/>
+ * Fragment that handles the list of claimed deliveries
  */
 public class InProgressFragment extends ListFragment {
+    // Request code to identify claimed list
     public static final int PROGRESS_DELIVERY = 240;
 
     public ArrayList<Delivery> mInProgress;
@@ -45,7 +48,7 @@ public class InProgressFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        // Initialize the data
         mInProgress = DataSource.get(getActivity()).getInProgress();
         updateArray();
     }
@@ -53,7 +56,7 @@ public class InProgressFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_in_progress, container, false);
-
+        // Set refresh on swipe down
         SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh_in_progress);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -63,22 +66,22 @@ public class InProgressFragment extends ListFragment {
             }
         });
 
+        // Fetch new data from server
         updateMyDeliveries(false);
 
         return v;
     }
 
-    // TODO: load markers after first data
-
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Delivery d = ((DeliveryAdapter) getListAdapter()).getItem(position);
-
+        // Start new Activity with the selected Delivery's information
         Intent i = new Intent(getActivity(), DeliveryPagerActivity.class);
         i.putExtra(DeliveryFragment.EXTRA_DELIVERY_ID, d.getId());
         getActivity().startActivityForResult(i, PROGRESS_DELIVERY);
     }
 
+    // Inner class to handle Delivery List View items
     private class DeliveryAdapter extends ArrayAdapter<Delivery> {
 
         public DeliveryAdapter(ArrayList<Delivery> deliveries) {
@@ -122,6 +125,7 @@ public class InProgressFragment extends ListFragment {
         }
     }
 
+    // Refresh the local data to display
     private void updateArray() {
         DataSource.get(getActivity()).setInProgress(mInProgress);
         mAdapter = new DeliveryAdapter(mInProgress);
@@ -130,11 +134,13 @@ public class InProgressFragment extends ListFragment {
         ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mInProgress);
     }
 
-    public void updateMyDeliveries(final boolean swiped) {
+    // Fetch data from server
+    public void updateMyDeliveries(boolean swiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/claimed?format=json&key=" + DataSource.USER_KEY;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
+                // Set returned data as new local data
                 mInProgress = new ArrayList<Delivery>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
@@ -146,11 +152,10 @@ public class InProgressFragment extends ListFragment {
                         return;
                     }
                 }
-
+                // Update
                 updateArray();
                 ((SwipeRefreshLayout) getView().findViewById(R.id.swipe_refresh_in_progress)).setRefreshing(false);
-                if (swiped)
-                    Toast.makeText(getActivity(), "Updated my deliveries", Toast.LENGTH_SHORT).show();
+                // Automatically add new markers on the map
                 ((MapFragment) getActivity().getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.delivery_list_viewPager + ":2")).updateMarkers();
             }
         }, new Response.ErrorListener() {
@@ -160,7 +165,7 @@ public class InProgressFragment extends ListFragment {
                 return;
             }
         });
-
+        // Time out request
         request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }

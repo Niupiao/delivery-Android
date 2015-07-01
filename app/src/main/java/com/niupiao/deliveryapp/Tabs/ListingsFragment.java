@@ -21,7 +21,6 @@ import com.niupiao.deliveryapp.Deliveries.DataSource;
 import com.niupiao.deliveryapp.Deliveries.Delivery;
 import com.niupiao.deliveryapp.Deliveries.DeliveryFragment;
 import com.niupiao.deliveryapp.Deliveries.DeliveryPagerActivity;
-import com.niupiao.deliveryapp.Map.MapFragment;
 import com.niupiao.deliveryapp.R;
 import com.niupiao.deliveryapp.SlidingTab.MainTabActivity;
 import com.niupiao.deliveryapp.VolleySingleton;
@@ -33,11 +32,14 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 /**
- * Created by Inanity on 6/22/2015.
+ * Created by ohjoseph on 6/22/2015.
+ *
+ * ListFragment that handles the list of available deliveries
  */
 public class ListingsFragment extends ListFragment {
     public static final int DELIVERY_DETAILS = 120;
 
+    // Holds the data
     public ArrayList<Delivery> mDeliveries;
     public DeliveryAdapter mAdapter;
 
@@ -45,7 +47,7 @@ public class ListingsFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        // Initialize data banks
         mDeliveries = DataSource.get(getActivity()).getDeliveries();
         updateArray();
     }
@@ -53,7 +55,7 @@ public class ListingsFragment extends ListFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_listings, container, false);
-
+        // Refresh list on swipe down
         SwipeRefreshLayout swipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.refresh_listings_view);
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -70,12 +72,13 @@ public class ListingsFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Delivery d = mAdapter.getItem(position);
-
+        // Start new activity with information from the selected Delivery
         Intent i = new Intent(getActivity(), DeliveryPagerActivity.class);
         i.putExtra(DeliveryFragment.EXTRA_DELIVERY_ID, d.getId());
         getActivity().startActivityForResult(i, DELIVERY_DETAILS);
     }
 
+    // Custom class to handle Delivery list view items
     public class DeliveryAdapter extends ArrayAdapter<Delivery> {
 
         public DeliveryAdapter(ArrayList<Delivery> deliveries) {
@@ -115,6 +118,7 @@ public class ListingsFragment extends ListFragment {
         }
     }
 
+    // Updates the information displayed on screen
     private void updateArray() {
         DataSource.get(getActivity()).setDeliveries(mDeliveries);
         mAdapter = new DeliveryAdapter(mDeliveries);
@@ -123,11 +127,13 @@ public class ListingsFragment extends ListFragment {
         ((MainTabActivity) getActivity()).setCurrentList(mAdapter, mDeliveries);
     }
 
+    // Fetch new data from the server
     public void updateListings(boolean isSwiped) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/index?format=json&key=" + DataSource.USER_KEY;
         JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray jsonArray) {
+                // Set server data as new local data
                 mDeliveries = new ArrayList<Delivery>();
                 for (int i = 0; i < jsonArray.length(); i++) {
                     try {
@@ -150,7 +156,7 @@ public class ListingsFragment extends ListFragment {
                 return;
             }
         });
-
+        // Time out
         request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }

@@ -11,6 +11,8 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by Ben on 6/28/2015.
+ *
+ * Singleton class to handle Volley requests for the lifetime of the application
  */
 public class VolleySingleton {
     private static VolleySingleton mInstance;
@@ -21,7 +23,7 @@ public class VolleySingleton {
     private VolleySingleton(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
-
+        // Support for image requests
         mImageLoader = new ImageLoader(mRequestQueue,
                 new ImageLoader.ImageCache() {
                     private final LruCache<String, Bitmap>
@@ -39,6 +41,7 @@ public class VolleySingleton {
                 });
     }
 
+    // Allows only one instance to be created
     public static synchronized VolleySingleton getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new VolleySingleton(context);
@@ -46,6 +49,7 @@ public class VolleySingleton {
         return mInstance;
     }
 
+    // Singleton request queue
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
             mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());

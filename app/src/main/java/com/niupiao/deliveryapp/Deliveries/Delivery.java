@@ -10,6 +10,8 @@ import java.util.UUID;
 
 /**
  * Created by Joseph on 6/22/15.
+ *
+ * Main Delivery class to hold information about a specific delivery
  */
 public class Delivery {
 

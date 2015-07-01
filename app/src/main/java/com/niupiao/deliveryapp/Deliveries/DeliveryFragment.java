@@ -26,6 +26,8 @@ import java.util.UUID;
 
 /**
  * Created by Joseph on 6/22/15.
+ *
+ * Fragment that displays the full information of any given Delivery
  */
 public class DeliveryFragment extends Fragment {
 
@@ -33,6 +35,7 @@ public class DeliveryFragment extends Fragment {
 
     private Delivery mDelivery;
 
+    // New instance method with extras
     public static DeliveryFragment newInstance(Bundle extras) {
         DeliveryFragment frag = new DeliveryFragment();
         frag.setArguments(extras);
@@ -43,7 +46,7 @@ public class DeliveryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
+        // Gets specific delivery from DataSource
         UUID id = (UUID) getArguments().getSerializable(EXTRA_DELIVERY_ID);
         mDelivery = DataSource.get(getActivity()).getDelivery(id);
     }
@@ -52,10 +55,10 @@ public class DeliveryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_delivery, parent, false);
 
-        if (mDelivery.isClaimed()) {
+        if (mDelivery.isClaimed()) { // Don't show button if already claimed
             RelativeLayout buttonParentView = (RelativeLayout) v.findViewById(R.id.button_view);
             buttonParentView.setVisibility(View.INVISIBLE);
-        } else {
+        } else { // Show button if claimable
             Button claimButton = (Button) v.findViewById(R.id.claim_button);
             claimButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -83,6 +86,7 @@ public class DeliveryFragment extends Fragment {
         return v;
     }
 
+    // Handle options menu clicks
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -95,6 +99,7 @@ public class DeliveryFragment extends Fragment {
         }
     }
 
+    // Claim an item and update the server
     public void updateClaimed(Delivery d) {
         String url = "https://niupiaomarket.herokuapp.com/delivery/claim?format=json&key=" + DataSource.USER_KEY;
         url = url + "&delivery_id=" + d.getItemID();
@@ -112,7 +117,6 @@ public class DeliveryFragment extends Fragment {
                     }
                 });
 
-        //request.setRetryPolicy(new DefaultRetryPolicy(20 * 3000, 1, 1.0f));
         VolleySingleton.getInstance(getActivity()).addToRequestQueue(request);
     }
 }
